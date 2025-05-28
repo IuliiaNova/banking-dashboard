@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
-import { Layout } from '../widgets/layout'
+import { Layout } from '../widgets/Layout'
 
 const Dashboard = lazy(() => import('../pages/Dashboard'))
 const Transactions = lazy(() => import('../pages/Transactions'))

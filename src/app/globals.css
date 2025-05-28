@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@theme {
+  --color-rose-base: #ef1660;
+  --color-rose-active: #df2162;
+  --color-rose-hover: #dd4f7f;
+  --color-background-dark: #333232;
+  --color-background-light: #F9F9F9;
+}
