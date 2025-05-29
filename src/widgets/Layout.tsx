@@ -4,9 +4,9 @@ import { Footer } from "../shared/components/layout/Footer";
 import NavBar from "../shared/components/layout/NavBar";
 
 export const Layout = () => (
-  <div className="min-h-screen bg-gray-100">
+  <div className="min-h-screen h-screen bg-background-extra-dark flex flex-col justify-between">
     <NavBar />
-    <main className="p-4">
+    <main className="h-full p-4">
       <Outlet />
     </main>
     <Footer />

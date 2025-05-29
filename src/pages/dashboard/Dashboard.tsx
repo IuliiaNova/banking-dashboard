@@ -2,8 +2,10 @@ import { AccountOverview } from "./components/AccountOverview";
 
 function Dashboard() {
   return (
-    <AccountOverview />
-  )
+    <div className="">
+      <AccountOverview />
+    </div>
+  );
 }
 
 export default Dashboard;

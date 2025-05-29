@@ -3,12 +3,14 @@ import { NavLink } from "react-router-dom";
 
 export const Footer = () => {
   return (
-    <footer className="h-16 border-t border-zinc-800 bg-black text-white">
-      <nav className="h-16 border-t border-zinc-800 bg-black text-white flex justify-around items-center">
+    <footer className="p-6 h-16 bg-background-extra-dark text-white">
+      <nav className="flex justify-around items-center">
         <NavLink
           to="/"
           className={({ isActive }: { isActive: boolean }) =>
-            isActive ? "text-red-500" : "text-gray-400"
+            `${
+              isActive ? "text-rose-base" : "text-gray-400"
+            } hover:text-rose-hover active:text-rose-active`
           }
         >
           <Home size={24} />
@@ -16,7 +18,9 @@ export const Footer = () => {
         <NavLink
           to="/insights"
           className={({ isActive }: { isActive: boolean }) =>
-            isActive ? "text-red-500" : "text-gray-400"
+            `${
+              isActive ? "text-rose-base" : "text-gray-400"
+            } hover:text-rose-hover active:text-rose-active`
           }
         >
           <BarChart3 size={24} />
@@ -24,7 +28,9 @@ export const Footer = () => {
         <NavLink
           to="/wallet"
           className={({ isActive }: { isActive: boolean }) =>
-            isActive ? "text-red-500" : "text-gray-400"
+            `${
+              isActive ? "text-rose-base" : "text-gray-400"
+            } hover:text-rose-hover active:text-rose-active`
           }
         >
           <Wallet size={24} />
@@ -32,7 +38,9 @@ export const Footer = () => {
         <NavLink
           to="/more"
           className={({ isActive }: { isActive: boolean }) =>
-            isActive ? "text-red-500" : "text-gray-400"
+            `${
+              isActive ? "text-rose-base" : "text-gray-400"
+            } hover:text-rose-hover active:text-rose-active`
           }
         >
           <MoreHorizontal size={24} />

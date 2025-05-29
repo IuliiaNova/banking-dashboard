@@ -38,12 +38,10 @@ export const AccountOverview = () => {
     handleDataFromMock();
   }, []);
 
-  // Obtener fecha actual y mes actual
   const now = new Date();
   const currentYear = now.getFullYear();
-  const currentMonth = now.getMonth(); // 0-based (enero = 0)
+  const currentMonth = now.getMonth(); 
 
-  // Filtrar transacciones del mes actual
   const transactionsThisMonth = transactions.filter((t) => {
     const tDate = new Date(t.date);
     return (
@@ -51,7 +49,6 @@ export const AccountOverview = () => {
     );
   });
 
-  // Calcular ingresos y gastos del mes actual
   const income = transactionsThisMonth
     .filter((t) => t.type === "Deposit")
     .reduce((sum, t) => sum + t.amount, 0);
@@ -60,7 +57,6 @@ export const AccountOverview = () => {
     .filter((t) => t.type === "Withdrawal")
     .reduce((sum, t) => sum + Math.abs(t.amount), 0);
 
-  // Balance total (todas las transacciones)
   const balance = transactions.reduce((sum, t) => sum + t.amount, 0);
 
   const renderValue = (value: number) =>
