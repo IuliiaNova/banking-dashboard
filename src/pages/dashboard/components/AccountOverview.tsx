@@ -4,12 +4,6 @@ import mockData from "../../../features/transactions/mock/transactions.json";
 import { mapRawTransactions } from "../../../entities/mappers/map";
 import type { TransactionRaw } from "../../../entities/models/transactions";
 
-const formatCurrency = (value: number) =>
-  new Intl.NumberFormat("de-DE", {
-    style: "currency",
-    currency: "EUR",
-  }).format(value);
-
 export const AccountOverview = () => {
   const {
     state: { transactions },
@@ -17,6 +11,10 @@ export const AccountOverview = () => {
   } = useTransactions("AccountOverview");
 
   const [isLoading, setIsLoading] = useState(true);
+  const [currency, setCurrency] = useState<"EUR" | "USD">("EUR");
+  const [showCurrentMonth, setShowCurrentMonth] = useState(true);
+
+  const exchangeRate = 1.1;
 
   const handleDataFromMock = () => {
     setIsLoading(true);
@@ -25,10 +23,8 @@ export const AccountOverview = () => {
         mockData as Array<TransactionRaw>
       );
       dispatch({ type: "SET", payload: formatedData });
-      setIsLoading(false);
     } catch (error) {
       console.error("Error loading mock data:", error);
-      setIsLoading(false);
     } finally {
       setIsLoading(false);
     }
@@ -38,57 +34,130 @@ export const AccountOverview = () => {
     handleDataFromMock();
   }, []);
 
+  const formatCurrency = (value: number) =>
+    new Intl.NumberFormat("de-DE", {
+      style: "currency",
+      currency,
+    }).format(value);
+
+  const convertValue = (value: number) => {
+    if (currency === "USD") {
+      return value * exchangeRate;
+    }
+    return value;
+  };
+
   const now = new Date();
   const currentYear = now.getFullYear();
-  const currentMonth = now.getMonth(); 
-
-  const transactionsThisMonth = transactions.filter((t) => {
-    const tDate = new Date(t.date);
-    return (
-      tDate.getFullYear() === currentYear && tDate.getMonth() === currentMonth
-    );
-  });
-
-  const income = transactionsThisMonth
-    .filter((t) => t.type === "Deposit")
-    .reduce((sum, t) => sum + t.amount, 0);
-
-  const expenses = transactionsThisMonth
-    .filter((t) => t.type === "Withdrawal")
-    .reduce((sum, t) => sum + Math.abs(t.amount), 0);
+  const currentMonth = now.getMonth();
 
   const balance = transactions.reduce((sum, t) => sum + t.amount, 0);
 
+  const filteredTransactions = showCurrentMonth
+    ? transactions.filter((t) => {
+        const tDate = new Date(t.date);
+        return (
+          tDate.getFullYear() === currentYear &&
+          tDate.getMonth() === currentMonth
+        );
+      })
+    : transactions;
+
+  const income = filteredTransactions
+    .filter((t) => t.type === "Deposit")
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  const expenses = filteredTransactions
+    .filter((t) => t.type === "Withdrawal")
+    .reduce((sum, t) => sum + Math.abs(t.amount), 0);
+
   const renderValue = (value: number) =>
     isLoading ? (
-      <p className="text-gray-400 italic">Loading...</p>
+      <p className="text-gray-400 italic" aria-live="polite">
+        Loading...
+      </p>
     ) : (
-      formatCurrency(value)
+      formatCurrency(convertValue(value))
     );
 
   return (
-    <section className="bg-white p-4 rounded-2xl shadow-md mb-6 w-full max-w-2xl mx-auto">
-      <h2 className="text-xl font-semibold mb-4 text-gray-800">
-        Account Overview
-      </h2>
+    <section
+      className="bg-white dark:bg-background-dark px-6 py-2 rounded-3xl shadow-lg max-w-3xl mx-auto"
+      role="region"
+      aria-labelledby="account-overview-title"
+    >
+      <header className="flex items-center justify-between mb-4">
+        <h2
+          id="account-overview-title"
+          className="text-lg font-semibold text-gray-900 dark:text-gray-100"
+        >
+          Account Overview
+        </h2>
+        <button
+          onClick={() => setCurrency(currency === "EUR" ? "USD" : "EUR")}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-sm font-medium shadow-sm hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-rose-base transition"
+          aria-label="Switch currency"
+          type="button"
+        >
+          {currency === "EUR" ? <span>€ Euro</span> : <span>$ Dollar</span>}
+        </button>
+      </header>
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-gray-50 rounded-xl p-4 text-center">
-          <p className="text-sm text-gray-500">Balance</p>
-          <p className="text-lg font-bold text-blue-600">
+        <div
+          className="bg-white dark:bg-rose-base/5 rounded-2xl p-3 text-center shadow-inner"
+          aria-label="Available balance"
+        >
+          <p className="text-sm font-semibold text-rose-base dark:rose-base mb-2 uppercase tracking-wide">
+            Available Balance
+          </p>
+          <p className="text-lg font-extrabold text-indigo-900 dark:text-indigo-100">
             {renderValue(balance)}
           </p>
         </div>
-        <div className="bg-green-50 rounded-xl p-4 text-center">
-          <p className="text-sm text-gray-500">Income (This Month)</p>
-          <p className="text-lg font-bold text-green-600">
-            {renderValue(income)}
+        <div className="flex items-center justify-between px-4 mb-2">
+          <p className="text-lg text-white font-semibold">
+            {showCurrentMonth ? "Current month" : "Total"}
           </p>
+          <button
+            type="button"
+            onClick={() => setShowCurrentMonth(!showCurrentMonth)}
+            className="inline-flex items-center px-3 py-1 text-sm font-medium text-gray-700 bg-gray-200 rounded-full hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-rose-base dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 transition"
+            aria-pressed={showCurrentMonth}
+            aria-label="Toggle between current month and total transactions"
+          >
+            {showCurrentMonth ? "Mostrar Total" : "Mostrar Mes Actual"}
+          </button>
         </div>
-        <div className="bg-red-50 rounded-xl p-4 text-center">
-          <p className="text-sm text-gray-500">Expenses (This Month)</p>
-          <p className="text-lg font-bold text-red-600">
-            {renderValue(expenses)}
-          </p>
+
+        <div className="flex justify-between px-4">
+          <div
+            className="text-center shadow-inner rounded-lg pb-2 "
+            aria-label={
+              showCurrentMonth ? "Incomes for current month" : "Total incomes"
+            }
+          >
+            <p className="text-sm font-semibold text-green-700 dark:text-green-300  uppercase tracking-wide">
+              Incomes
+            </p>
+            <p className="text-lg font-bold text-green-900 dark:text-green-100">
+              {renderValue(income)}
+            </p>
+          </div>
+
+          <div
+            className="text-center shadow-inner rounded-lg pb-2 "
+            aria-label={
+              showCurrentMonth ? "Expenses for current month" : "Total expenses"
+            }
+          >
+            <p className="text-sm font-semibold text-red-700 dark:text-red-300  uppercase tracking-wide">
+              Expenses
+            </p>
+            <p className="text-lg font-bold text-red-900 dark:text-red-100">
+              {renderValue(expenses)}
+            </p>
+          </div>
         </div>
       </div>
     </section>
