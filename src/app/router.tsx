@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
 import { Layout } from '../widgets/Layout'
 
-const Dashboard = lazy(() => import('../pages/Dashboard'))
+const Dashboard = lazy(() => import('../pages/dashboard/Dashboard'))
 const Transactions = lazy(() => import('../pages/Transactions'))
 const NotFound = lazy(() => import('../pages/NotFound'))
 

@@ -1,4 +1,4 @@
-import type { Transaction } from "../../../entities/transactions";
+import type { Transaction } from "../../../entities/models/transactions";
 import type { State } from "./transactions.context";
 
 export type TransactionAction =
@@ -8,7 +8,10 @@ export type TransactionAction =
   | { type: "UNDO" }
   | { type: "SET"; payload: Transaction[] };
 
-export function transactionsReducer(state: State, action: TransactionAction): State {
+export function transactionsReducer(
+  state: State,
+  action: TransactionAction
+): State {
   switch (action.type) {
     case "SET":
       return { transactions: action.payload };

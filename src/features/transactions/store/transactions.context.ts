@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from "react";
-import type { Transaction } from "../../../entities/transactions";
+import type { Transaction } from "../../../entities/models/transactions";
 import type { TransactionAction } from "./transactions.reducer";
 
 export type State = {
@@ -15,7 +15,7 @@ export const TransactionsContext = createContext<
   TransactionsContextType | undefined
 >(undefined);
 
-export const useTransactions = ({ target }: { target: string }) => {
+export const useTransactions = (target: string) => {
   const context = useContext(TransactionsContext);
   if (!context) {
     throw new Error(
