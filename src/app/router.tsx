@@ -1,14 +1,16 @@
-import { createBrowserRouter } from 'react-router-dom'
-import { lazy, Suspense } from 'react'
-import { Layout } from '../widgets/Layout'
+import { createBrowserRouter } from "react-router-dom";
+import { lazy, Suspense } from "react";
+import { Layout } from "../widgets/Layout";
 
-const Dashboard = lazy(() => import('../pages/dashboard/Dashboard'))
-const Transactions = lazy(() => import('../pages/Transactions'))
-const NotFound = lazy(() => import('../pages/NotFound'))
+const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"));
+const TransactionHistory = lazy(
+  () => import("../pages/transactionHistory/TransactionHistory")
+);
+const NotFound = lazy(() => import("../pages/NotFound"));
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <Layout />,
     children: [
       {
@@ -20,15 +22,15 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: 'transactions',
+        path: "transactions-history",
         element: (
           <Suspense fallback={<div>Loading...</div>}>
-            <Transactions />
+            <TransactionHistory />
           </Suspense>
         ),
       },
       {
-        path: '*',
+        path: "*",
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <NotFound />
@@ -37,4 +39,4 @@ export const router = createBrowserRouter([
       },
     ],
   },
-])
+]);
