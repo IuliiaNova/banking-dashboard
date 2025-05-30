@@ -5,7 +5,7 @@ export function mapRawTransactions(rawData: TransactionRaw[]): Transaction[] {
   return rawData.map((transaction) => ({
     id: uuidv4(),
     date: transaction.Date,
-    amount: transaction.Amount,
+    amount: Math.abs(transaction.Amount),
     description: transaction.Description,
     type: transaction.Type,
   }));

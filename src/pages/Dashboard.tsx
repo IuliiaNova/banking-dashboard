@@ -3,13 +3,15 @@ import FinancialUnit from "../features/account/components/FinancialUnit";
 import { useTransactions } from "../features/transactions/store/transactions.context";
 import { useNavigate } from "react-router-dom";
 import { AccountOverview } from "../features/account/components/AccountOverview";
+import { calculateBalance } from "../shared/utils/calculate-balance";
 
 function Dashboard() {
   const navigate = useNavigate();
   const {
     state: { transactions },
   } = useTransactions("AccountOverview");
-  const balance = transactions.reduce((sum, t) => sum + t.amount, 0);
+  const balance = calculateBalance(transactions)
+
   return (
     <div className="space-y-5">
       <AccountOverview />

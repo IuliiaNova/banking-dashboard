@@ -9,10 +9,9 @@ import type { Transaction } from "../../../entities/models/transactions";
 const schema = z.object({
   amount: z.number().min(0.01, "Amount must be greater than zero"),
   description: z.string().min(1, "Description is required"),
-  date: z.string().refine(
-    (val) => !isNaN(Date.parse(val)),
-    "Invalid date format"
-  ),
+  date: z
+    .string()
+    .refine((val) => !isNaN(Date.parse(val)), "Invalid date format"),
   type: z.enum(["Deposit", "Withdrawal"]),
 });
 
@@ -24,7 +23,7 @@ interface Props {
 }
 
 export const TransferForm = ({ initial, onSuccess }: Props) => {
-  const { state, dispatch } = useTransactions('TransferForm');
+  const { state, dispatch } = useTransactions("TransferForm");
 
   const {
     register,
@@ -83,11 +82,12 @@ export const TransferForm = ({ initial, onSuccess }: Props) => {
     setValue("type", initial.type);
   };
 
+  console.log(state.transactions);
   return (
     <form
-    onSubmit={handleSubmit(onSubmit)}
-    className="bg-gray-50 dark:bg-background-extra-dark rounded-xl p-4 sm:p-6 shadow space-y-6 max-w-lg mx-auto relative z-10"
-  >
+      onSubmit={handleSubmit(onSubmit)}
+      className="bg-gray-50 dark:bg-background-extra-dark rounded-xl p-4 sm:p-6 shadow space-y-6 max-w-lg mx-auto relative z-10"
+    >
       <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
         {initial ? "Edit Transaction" : "New Transaction"}
       </h2>
@@ -146,7 +146,9 @@ export const TransferForm = ({ initial, onSuccess }: Props) => {
             )}
           />
           {errors.description && (
-            <p className="text-xs text-red-500 mt-1">{errors.description.message}</p>
+            <p className="text-xs text-red-500 mt-1">
+              {errors.description.message}
+            </p>
           )}
         </div>
 

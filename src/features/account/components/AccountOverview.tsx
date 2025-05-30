@@ -3,6 +3,7 @@ import { useTransactions } from "../../../features/transactions/store/transactio
 import mockData from "../../../features/transactions/mock/transactions.json";
 import { mapRawTransactions } from "../../../entities/mappers/map";
 import type { TransactionRaw } from "../../../entities/models/transactions";
+import { calculateBalance } from "../../../shared/utils/calculate-balance";
 
 export const AccountOverview = () => {
   const {
@@ -51,7 +52,7 @@ export const AccountOverview = () => {
   const currentYear = now.getFullYear();
   const currentMonth = now.getMonth();
 
-  const balance = transactions.reduce((sum, t) => sum + t.amount, 0);
+  const balance = calculateBalance(transactions)
 
   const filteredTransactions = showCurrentMonth
     ? transactions.filter((t) => {
