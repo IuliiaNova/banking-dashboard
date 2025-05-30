@@ -71,11 +71,17 @@ export const AccountOverview = () => {
     .filter((t) => t.type === "Withdrawal")
     .reduce((sum, t) => sum + Math.abs(t.amount), 0);
 
+  // Skeleton loader para los valores
+  const SkeletonBlock = ({ className = "" }) => (
+    <div
+      className={`bg-gray-300 dark:bg-gray-700 rounded animate-pulse ${className}`}
+      aria-hidden="true"
+    />
+  );
+
   const renderValue = (value: number) =>
     isLoading ? (
-      <p className="text-gray-400 italic" aria-live="polite">
-        Loading...
-      </p>
+      <SkeletonBlock className="h-6 w-24 mx-auto" />
     ) : (
       formatCurrency(convertValue(value))
     );
@@ -87,76 +93,127 @@ export const AccountOverview = () => {
       aria-labelledby="account-overview-title"
     >
       <header className="flex items-center justify-between mb-4">
-        <h2
-          id="account-overview-title"
-          className="text-lg font-semibold text-gray-900 dark:text-gray-100"
-        >
-          Account Overview
-        </h2>
+        {isLoading ? (
+          <SkeletonBlock className="h-8 w-48" />
+        ) : (
+          <h2
+            id="account-overview-title"
+            className="text-lg font-semibold text-gray-900 dark:text-gray-100"
+          >
+            Account Overview
+          </h2>
+        )}
         <button
           onClick={() => setCurrency(currency === "EUR" ? "USD" : "EUR")}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-sm font-medium shadow-sm hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-rose-base transition"
+          className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border ${
+            isLoading
+              ? "border-transparent bg-gray-300 dark:bg-gray-700 cursor-default"
+              : "border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-rose-base transition"
+          } text-sm font-medium shadow-sm`}
           aria-label="Switch currency"
           type="button"
+          disabled={isLoading}
         >
-          {currency === "EUR" ? <span>€ Euro</span> : <span>$ Dollar</span>}
+          {isLoading ? (
+            <SkeletonBlock className="h-5 w-16" />
+          ) : currency === "EUR" ? (
+            <span>€ Euro</span>
+          ) : (
+            <span>$ Dollar</span>
+          )}
         </button>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div
-          className="bg-white dark:bg-rose-base/5 rounded-2xl p-3 text-center shadow-inner"
+          className={`bg-white dark:bg-rose-base/5 rounded-2xl p-3 text-center shadow-inner ${
+            isLoading ? "cursor-wait" : ""
+          }`}
           aria-label="Available balance"
         >
-          <p className="text-sm font-semibold text-rose-base dark:rose-base mb-2 uppercase tracking-wide">
+          <p
+            className={`text-sm font-semibold text-rose-base dark:rose-base mb-2 uppercase tracking-wide ${
+              isLoading ? "invisible" : ""
+            }`}
+          >
             Available Balance
           </p>
-          <p className="text-lg font-extrabold text-indigo-900 dark:text-indigo-100">
-            {renderValue(balance)}
-          </p>
-        </div>
-        <div className="flex items-center justify-between px-4 mb-2">
-          <p className="text-lg text-white font-semibold">
-            {showCurrentMonth ? "Current month" : "Total"}
-          </p>
-          <button
-            type="button"
-            onClick={() => setShowCurrentMonth(!showCurrentMonth)}
-            className="inline-flex items-center px-3 py-1 text-sm font-medium text-gray-700 bg-gray-200 rounded-full hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-rose-base dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 transition"
-            aria-pressed={showCurrentMonth}
-            aria-label="Toggle between current month and total transactions"
-          >
-            {showCurrentMonth ? "Mostrar Total" : "Mostrar Mes Actual"}
-          </button>
+          {isLoading ? (
+            <SkeletonBlock className="h-8 w-32 mx-auto" />
+          ) : (
+            <p className="text-lg font-extrabold text-indigo-900 dark:text-indigo-100">
+              {renderValue(balance)}
+            </p>
+          )}
         </div>
 
-        <div className="flex justify-between px-4">
+        <div className="flex items-center justify-between px-4 mb-2">
+          {isLoading ? (
+            <>
+              <SkeletonBlock className="h-6 w-32" />
+              <SkeletonBlock className="h-7 w-28 rounded-full" />
+            </>
+          ) : (
+            <>
+              <p className="text-lg text-white font-semibold">
+                {showCurrentMonth ? "Current month" : "Total"}
+              </p>
+              <button
+                type="button"
+                onClick={() => setShowCurrentMonth(!showCurrentMonth)}
+                className="inline-flex items-center px-3 py-1 text-sm font-medium text-gray-700 bg-gray-200 rounded-full hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-rose-base dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 transition"
+                aria-pressed={showCurrentMonth}
+                aria-label="Toggle between current month and total transactions"
+              >
+                {showCurrentMonth ? "Mostrar Total" : "Mostrar Mes Actual"}
+              </button>
+            </>
+          )}
+        </div>
+
+        <div className="flex justify-between px-4 gap-4">
           <div
-            className="text-center shadow-inner rounded-lg pb-2 "
+            className="text-center shadow-inner rounded-lg pb-2 flex-1"
             aria-label={
               showCurrentMonth ? "Incomes for current month" : "Total incomes"
             }
           >
-            <p className="text-sm font-semibold text-green-700 dark:text-green-300  uppercase tracking-wide">
+            <p
+              className={`text-sm font-semibold text-green-700 dark:text-green-300 uppercase tracking-wide ${
+                isLoading ? "invisible" : ""
+              }`}
+            >
               Incomes
             </p>
-            <p className="text-lg font-bold text-green-900 dark:text-green-100">
-              {renderValue(income)}
-            </p>
+            {isLoading ? (
+              <SkeletonBlock className="h-8 w-24 mx-auto" />
+            ) : (
+              <p className="text-lg font-bold text-green-900 dark:text-green-100">
+                {renderValue(income)}
+              </p>
+            )}
           </div>
 
           <div
-            className="text-center shadow-inner rounded-lg pb-2 "
+            className="text-center shadow-inner rounded-lg pb-2 flex-1"
             aria-label={
               showCurrentMonth ? "Expenses for current month" : "Total expenses"
             }
           >
-            <p className="text-sm font-semibold text-red-700 dark:text-red-300  uppercase tracking-wide">
+            <p
+              className={`text-sm font-semibold text-red-700 dark:text-red-300 uppercase tracking-wide ${
+                isLoading ? "invisible" : ""
+              }`}
+            >
               Expenses
             </p>
-            <p className="text-lg font-bold text-red-900 dark:text-red-100">
-              {renderValue(expenses)}
-            </p>
+            {isLoading ? (
+              <SkeletonBlock className="h-8 w-24 mx-auto" />
+            ) : (
+              <p className="text-lg font-bold text-red-900 dark:text-red-100">
+                {renderValue(expenses)}
+              </p>
+            )}
           </div>
         </div>
       </div>
