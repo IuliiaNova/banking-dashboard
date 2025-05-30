@@ -1,8 +1,8 @@
 import { CirclePlus, CreditCard, HandCoins } from "lucide-react";
-import { AccountOverview } from "./components/AccountOverview";
-import FinancialUnit from "./components/FinancialUnit";
-import { useTransactions } from "../../features/transactions/store/transactions.context";
+import FinancialUnit from "../features/account/components/FinancialUnit";
+import { useTransactions } from "../features/transactions/store/transactions.context";
 import { useNavigate } from "react-router-dom";
+import { AccountOverview } from "../features/account/components/AccountOverview";
 
 function Dashboard() {
   const navigate = useNavigate();

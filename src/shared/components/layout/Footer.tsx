@@ -1,4 +1,4 @@
-import { Home, BarChart3, Wallet, MoreHorizontal } from "lucide-react";
+import { Home, BarChart3, Wallet, MoreHorizontal, ArrowLeftRight } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 export const Footer = () => {
@@ -6,7 +6,7 @@ export const Footer = () => {
     <footer className="p-6 h-16 bg-gray-50 border-t-2 border-rose-base/10 dark:bg-background-extra-dark text-white shadow-md">
       <nav className="flex justify-around items-center text-gray-600 dark:text-gray-400">
         <NavLink
-          to="/"
+          to="/dashboard"
           className={({ isActive }: { isActive: boolean }) =>
             `${
               isActive ? "text-rose-base" : "text-gray-400"
@@ -26,14 +26,14 @@ export const Footer = () => {
           <BarChart3 size={24} />
         </NavLink>
         <NavLink
-          to="/wallet"
+          to="/transactions"
           className={({ isActive }: { isActive: boolean }) =>
             `${
               isActive ? "text-rose-base" : "text-gray-400"
             } hover:text-rose-hover active:text-rose-active`
           }
         >
-          <Wallet size={24} />
+          <ArrowLeftRight size={24} />
         </NavLink>
         <NavLink
           to="/more"

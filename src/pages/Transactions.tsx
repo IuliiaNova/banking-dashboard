@@ -1,3 +1,7 @@
+import { TransactionFormEntry } from "../features/transactions/components/TransactionFormEntry";
+
 export default function Transactions() {
-  return <div>Transactions</div>;
+  return (
+    <TransactionFormEntry />
+  )
 }

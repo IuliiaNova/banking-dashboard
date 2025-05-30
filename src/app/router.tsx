@@ -2,21 +2,31 @@ import { createBrowserRouter } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { Layout } from "../widgets/Layout";
 
-const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"));
-const TransactionHistory = lazy(
-  () => import("../pages/transactionHistory/TransactionHistory")
-);
+const Login = lazy(() => import("../pages/Login"));
+const Dashboard = lazy(() => import("../pages/Dashboard"));
+const TransactionHistory = lazy(() => import("../pages/TransactionHistory"));
+const Transactions = lazy(() => import("../pages/Transactions"));
 const NotFound = lazy(() => import("../pages/NotFound"));
+
+const LoadingFallback = <div className="p-4 text-center">Loading...</div>;
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: (
+      <Suspense fallback={LoadingFallback}>
+        <Login />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/",
+    element: <Layout />, // Layout wrapper for protected routes
     children: [
       {
-        index: true,
+        path: "dashboard",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={LoadingFallback}>
             <Dashboard />
           </Suspense>
         ),
@@ -24,15 +34,23 @@ export const router = createBrowserRouter([
       {
         path: "transactions-history",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={LoadingFallback}>
             <TransactionHistory />
+          </Suspense>
+        ),
+      },
+      {
+        path: "transactions",
+        element: (
+          <Suspense fallback={LoadingFallback}>
+            <Transactions />
           </Suspense>
         ),
       },
       {
         path: "*",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={LoadingFallback}>
             <NotFound />
           </Suspense>
         ),
