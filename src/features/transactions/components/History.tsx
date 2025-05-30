@@ -1,6 +1,8 @@
 import React, { useMemo, useState } from "react";
 import { useTransactions } from "../../../features/transactions/store/transactions.context";
 import TransactionFilters from "./TransactionFilters";
+import { File, SlidersHorizontal } from "lucide-react";
+import CSVmanage from "./CSVmanage";
 
 const PAGE_SIZE = 20;
 
@@ -18,6 +20,7 @@ const History = () => {
   });
 
   const [showFilters, setShowFilters] = useState(false);
+  const [showCSV, setShowCSV] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -51,21 +54,36 @@ const History = () => {
 
   return (
     <section className="w-full max-w-3xl mx-auto px-4 py-4">
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-4 px-2">
         <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-          Transaction History
+          Transactions
         </h2>
-        <button
-          onClick={() => setShowFilters(!showFilters)}
-          className="text-sm text-[var(--color-rose-base)] hover:text-[var(--color-rose-hover)]"
-        >
-          {showFilters ? "Hide filters" : "Show filters"}
-        </button>
+        <div className="flex gap-4">
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className="text-sm text-rose-base hover:text-color-rose-hover cursor-pointer"
+          >
+            {showFilters ? (
+              <SlidersHorizontal color="#ef1660" />
+            ) : (
+              <SlidersHorizontal color="white" />
+            )}
+          </button>
+
+          <button
+            onClick={() => setShowCSV(!showCSV)}
+            className="text-sm text-rose-base hover:text-color-rose-hover cursor-pointer"
+          >
+            {showCSV ? <File color="#ef1660" /> : <File color="white" />}
+          </button>
+        </div>
       </div>
 
       {showFilters && (
         <TransactionFilters filter={filter} onChange={handleChange} />
       )}
+
+      {showCSV && <CSVmanage />}
 
       <div className="h-[600px] overflow-y-auto space-y-2 pr-1 scroll-smooth scroll-hidden">
         {paginated.length > 0 ? (
