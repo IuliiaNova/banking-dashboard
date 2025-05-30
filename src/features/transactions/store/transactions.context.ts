@@ -1,9 +1,11 @@
 import React, { createContext, useContext } from "react";
 import type { Transaction } from "../../../entities/models/transactions";
 import type { TransactionAction } from "./transactions.reducer";
+import type { RequestState } from "../../../entities/models/common";
 
 export type State = {
   transactions: Transaction[];
+  loading: RequestState;
 };
 
 export type TransactionsContextType = {

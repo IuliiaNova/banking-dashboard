@@ -5,7 +5,7 @@ interface Props {
 }
 
 const OPTIONS: { key: TransactionMethod; label: string }[] = [
-  { key: "transfer", label: "Make a Transfer" },
+  { key: "transfer", label: "Make a Transaction" },
   { key: "bizum", label: "Send via Bizum" },
   { key: "withdrawal", label: "Withdrawal Money" },
 ];

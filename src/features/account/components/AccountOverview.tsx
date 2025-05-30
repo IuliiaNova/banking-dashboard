@@ -1,39 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTransactions } from "../../../features/transactions/store/transactions.context";
-import mockData from "../../../features/transactions/mock/transactions.json";
-import { mapRawTransactions } from "../../../entities/mappers/map";
-import type { TransactionRaw } from "../../../entities/models/transactions";
 import { calculateBalance } from "../../../shared/utils/calculate-balance";
 
 export const AccountOverview = () => {
   const {
-    state: { transactions },
-    dispatch,
+    state: { transactions, loading },
   } = useTransactions("AccountOverview");
 
-  const [isLoading, setIsLoading] = useState(true);
   const [currency, setCurrency] = useState<"EUR" | "USD">("EUR");
   const [showCurrentMonth, setShowCurrentMonth] = useState(true);
 
   const exchangeRate = 1.1;
-
-  const handleDataFromMock = () => {
-    setIsLoading(true);
-    try {
-      const formatedData = mapRawTransactions(
-        mockData as Array<TransactionRaw>
-      );
-      dispatch({ type: "SET", payload: formatedData });
-    } catch (error) {
-      console.error("Error loading mock data:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    handleDataFromMock();
-  }, []);
 
   const formatCurrency = (value: number) =>
     new Intl.NumberFormat("de-DE", {
@@ -52,7 +29,7 @@ export const AccountOverview = () => {
   const currentYear = now.getFullYear();
   const currentMonth = now.getMonth();
 
-  const balance = calculateBalance(transactions)
+  const balance = calculateBalance(transactions);
 
   const filteredTransactions = showCurrentMonth
     ? transactions.filter((t) => {
@@ -81,7 +58,7 @@ export const AccountOverview = () => {
   );
 
   const renderValue = (value: number) =>
-    isLoading ? (
+    loading === "pending" ? (
       <SkeletonBlock className="h-6 w-24 mx-auto" />
     ) : (
       formatCurrency(convertValue(value))
@@ -94,7 +71,7 @@ export const AccountOverview = () => {
       aria-labelledby="account-overview-title"
     >
       <header className="flex items-center justify-between my-2">
-        {isLoading ? (
+        {loading === "pending" ? (
           <SkeletonBlock className="h-8 w-48" />
         ) : (
           <h2
@@ -107,15 +84,15 @@ export const AccountOverview = () => {
         <button
           onClick={() => setCurrency(currency === "EUR" ? "USD" : "EUR")}
           className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border ${
-            isLoading
+            loading === "pending"
               ? "border-transparent bg-gray-200 dark:bg-gray-700 cursor-default"
               : "border-gray-200 dark:border-gray-700 bg-gray-20 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-rose-base transition"
           } text-sm font-medium shadow-sm`}
           aria-label="Switch currency"
           type="button"
-          disabled={isLoading}
+          disabled={loading === "pending"}
         >
-          {isLoading ? (
+          {loading === "pending" ? (
             <SkeletonBlock className="h-5 w-16" />
           ) : currency === "EUR" ? (
             <span>€ Euro</span>
@@ -128,18 +105,18 @@ export const AccountOverview = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div
           className={`bg-white dark:bg-rose-base/5 rounded-2xl p-3 text-center shadow-inner ${
-            isLoading ? "cursor-wait" : ""
+            loading === "pending" ? "cursor-wait" : ""
           }`}
           aria-label="Available balance"
         >
           <p
             className={`text-sm font-semibold text-rose-base dark:rose-base mb-2 uppercase tracking-wide ${
-              isLoading ? "invisible" : ""
+              loading === "pending" ? "invisible" : ""
             }`}
           >
             Available Balance
           </p>
-          {isLoading ? (
+          {loading === "pending" ? (
             <SkeletonBlock className="h-8 w-32 mx-auto" />
           ) : (
             <p className="text-lg font-extrabold text-indigo-900 dark:text-indigo-100">
@@ -149,7 +126,7 @@ export const AccountOverview = () => {
         </div>
 
         <div className="flex items-center justify-between px-4 mb-2">
-          {isLoading ? (
+          {loading === "pending" ? (
             <>
               <SkeletonBlock className="h-6 w-32" />
               <SkeletonBlock className="h-7 w-28 rounded-full" />
@@ -181,12 +158,12 @@ export const AccountOverview = () => {
           >
             <p
               className={`text-sm font-semibold text-green-700 dark:text-green-300 uppercase tracking-wide ${
-                isLoading ? "invisible" : ""
+                loading === "pending" ? "invisible" : ""
               }`}
             >
               Incomes
             </p>
-            {isLoading ? (
+            {loading === "pending" ? (
               <SkeletonBlock className="h-8 w-24 mx-auto" />
             ) : (
               <p className="text-lg font-bold text-green-900 dark:text-green-100">
@@ -203,12 +180,12 @@ export const AccountOverview = () => {
           >
             <p
               className={`text-sm font-semibold text-red-700 dark:text-red-300 uppercase tracking-wide ${
-                isLoading ? "invisible" : ""
+                loading === "pending" ? "invisible" : ""
               }`}
             >
               Expenses
             </p>
-            {isLoading ? (
+            {loading === "pending" ? (
               <SkeletonBlock className="h-8 w-24 mx-auto" />
             ) : (
               <p className="text-lg font-bold text-red-900 dark:text-red-100">
