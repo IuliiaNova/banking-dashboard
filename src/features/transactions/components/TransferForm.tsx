@@ -86,7 +86,7 @@ export const TransferForm = ({ initial, onSuccess }: Props) => {
   return (
     <form
     onSubmit={handleSubmit(onSubmit)}
-    className="bg-gray-50 dark:bg-background-extra-dark rounded-xl p-4 sm:p-6 shadow space-y-6 max-w-lg mx-auto"
+    className="bg-gray-50 dark:bg-background-extra-dark rounded-xl p-4 sm:p-6 shadow space-y-6 max-w-lg mx-auto relative z-10"
   >
       <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
         {initial ? "Edit Transaction" : "New Transaction"}
@@ -124,7 +124,7 @@ export const TransferForm = ({ initial, onSuccess }: Props) => {
           </label>
           <select
             {...register("type")}
-            className="w-full rounded-md px-3 py-2 border border-gray-300 bg-white dark:bg-background-dark dark:text-white"
+            className="relative z-50 w-full rounded-md px-3 py-2 border border-gray-300 bg-white dark:bg-background-dark dark:text-white"
           >
             <option value="Deposit">Deposit</option>
             <option value="Withdrawal">Withdrawal</option>
