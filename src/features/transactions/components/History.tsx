@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import { useTransactions } from "../../../features/transactions/store/transactions.context";
 import TransactionFilters from "./TransactionFilters";
 import { File, SlidersHorizontal } from "lucide-react";
-import CSVmanage from "./CSVmanage";
+import CSVmanage from "./csv/CSVmanage";
 
 const PAGE_SIZE = 20;
 

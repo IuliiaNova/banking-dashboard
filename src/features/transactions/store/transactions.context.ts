@@ -8,9 +8,12 @@ export type State = {
   loading: RequestState;
 };
 
+export type Dispatch = React.Dispatch<TransactionAction>;
+
+
 export type TransactionsContextType = {
   state: State;
-  dispatch: React.Dispatch<TransactionAction>;
+  dispatch: Dispatch;
 };
 
 export const TransactionsContext = createContext<
