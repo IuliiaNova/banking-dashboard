@@ -3,7 +3,7 @@ import { Footer } from "../shared/components/layout/Footer";
 import NavBar from "../shared/components/layout/NavBar";
 
 export const Layout = () => (
-  <div className="bg-background-extra-dark min-h-screen">
+  <div className="bg-gray-50 dark:bg-background-extra-dark min-h-screen">
     <header className="fixed top-0 left-0 right-0 z-50">
       <NavBar />
     </header>

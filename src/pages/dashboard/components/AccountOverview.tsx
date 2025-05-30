@@ -92,7 +92,7 @@ export const AccountOverview = () => {
       role="region"
       aria-labelledby="account-overview-title"
     >
-      <header className="flex items-center justify-between mb-4">
+      <header className="flex items-center justify-between my-2">
         {isLoading ? (
           <SkeletonBlock className="h-8 w-48" />
         ) : (
@@ -107,8 +107,8 @@ export const AccountOverview = () => {
           onClick={() => setCurrency(currency === "EUR" ? "USD" : "EUR")}
           className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border ${
             isLoading
-              ? "border-transparent bg-gray-300 dark:bg-gray-700 cursor-default"
-              : "border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-rose-base transition"
+              ? "border-transparent bg-gray-200 dark:bg-gray-700 cursor-default"
+              : "border-gray-200 dark:border-gray-700 bg-gray-20 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-rose-base transition"
           } text-sm font-medium shadow-sm`}
           aria-label="Switch currency"
           type="button"
