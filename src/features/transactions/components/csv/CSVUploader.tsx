@@ -1,15 +1,20 @@
 import React from "react";
 import { Upload } from "lucide-react";
-import { parseCSVToTransactions } from "../../services/csv";
+import type { Transaction } from "../../../../entities/models/transactions";
 import type { Dispatch } from "../../store/transactions.context";
+import { parseCSVToTransactions } from "../../services/csv";
+import { mergeTransactions } from "../../utils/mergeTransactios";
 
-interface Props {
+interface CSVUploaderProps {
   onClick: () => void;
+  transactions: Transaction[];
+  dispatch: Dispatch;
 }
 
-const CSVUploader: React.FC<Props> & {
+const CSVUploader: React.FC<CSVUploaderProps> & {
   handleFileChange: (
     e: React.ChangeEvent<HTMLInputElement>,
+    transactions: Transaction[],
     dispatch: Dispatch
   ) => void;
 } = ({ onClick }) => (
@@ -24,10 +29,7 @@ const CSVUploader: React.FC<Props> & {
   </button>
 );
 
-CSVUploader.handleFileChange = (
-  e: React.ChangeEvent<HTMLInputElement>,
-  dispatch: Dispatch
-) => {
+CSVUploader.handleFileChange = (e, transactions, dispatch) => {
   const file = e.target.files?.[0];
   if (!file) return;
 
@@ -36,18 +38,23 @@ CSVUploader.handleFileChange = (
     const text = event.target?.result;
     if (typeof text === "string") {
       try {
-        const transactions = parseCSVToTransactions(text);
-        dispatch({ type: "SET", payload: transactions });
-        alert("CSV uploaded and transactions updated.");
-      } catch (err) {
+        const newTransactions = parseCSVToTransactions(text);
+        console.log("newTransactions", newTransactions);
+
+        const merged = mergeTransactions(transactions, newTransactions);
+        console.log("merged", merged);
+
+        dispatch({ type: "SET", payload: merged });
+        alert("CSV uploaded and transactions merged.");
+      } catch (error) {
         alert("Error parsing CSV.");
-        console.error(err);
+        console.error(error);
       }
     }
   };
 
   reader.readAsText(file);
-  e.target.value = ""; // reset input
+  e.target.value = "";
 };
 
 export default CSVUploader;

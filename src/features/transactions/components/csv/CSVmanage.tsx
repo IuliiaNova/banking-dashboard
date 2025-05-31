@@ -21,12 +21,16 @@ const CSVManage = () => {
         type="file"
         accept=".csv"
         ref={fileInputRef}
-        onChange={(e) => CSVUploader.handleFileChange(e, dispatch)}
+        onChange={(e) => CSVUploader.handleFileChange(e, transactions, dispatch )}
         className="hidden"
         aria-hidden="true"
       />
       <div className="flex sm:flex-row flex-wrap gap-2 mb-4">
-        <CSVUploader onClick={handleFileClick} />
+      <CSVUploader
+        onClick={handleFileClick}
+        transactions={transactions}
+        dispatch={dispatch}
+      />
         <CSVDownloader transactions={transactions} />
       </div>
     </>
