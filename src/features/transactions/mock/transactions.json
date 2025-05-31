@@ -34,7 +34,7 @@
   { "Date": "2025-04-07", "Amount": -18.00, "Description": "Streaming Subscription", "Type": "Withdrawal" },
   { "Date": "2025-04-10", "Amount": 150.00, "Description": "Gift Received", "Type": "Deposit" },
   { "Date": "2025-04-12", "Amount": -65.00, "Description": "Groceries", "Type": "Withdrawal" },
-  { "Date": "2025-05+-15", "Amount": -30.00, "Description": "Taxi", "Type": "Withdrawal" },
+  { "Date": "2025-05-15", "Amount": -30.00, "Description": "Taxi", "Type": "Withdrawal" },
   { "Date": "2025-05-18", "Amount": 300.00, "Description": "Freelance", "Type": "Deposit" },
   { "Date": "2025-05-21", "Amount": -150.00, "Description": "Online Shopping", "Type": "Withdrawal" },
   { "Date": "2025-05-24", "Amount": -22.00, "Description": "Fast Food", "Type": "Withdrawal" },

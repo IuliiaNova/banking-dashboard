@@ -1,9 +1,10 @@
-import { CirclePlus, CreditCard, HandCoins } from "lucide-react";
+import { CreditCard, HandCoins } from "lucide-react";
 import FinancialUnit from "../features/account/components/FinancialUnit";
 import { useTransactions } from "../features/transactions/store/transactions.context";
 import { useNavigate } from "react-router-dom";
 import { AccountOverview } from "../features/account/components/AccountOverview";
 import { calculateBalance } from "../shared/utils/calculate-balance";
+import TransactionsView from "../features/account/components/TransactionsView";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -15,7 +16,6 @@ function Dashboard() {
   return (
     <div className="space-y-5 ">
       <AccountOverview />
-
       <div className="flex items-center justify-center gap-6">
         <div
           onClick={() => navigate("/transactions-history")}
@@ -38,18 +38,7 @@ function Dashboard() {
         />
       </div>
 
-      <div className="flex flex-col gap-2 items-center md:justify-center lg:justify-center justify-start">
-        <span className="mb-2 text-md font-semibold text-gray-800 dark:text-gray-100 truncate">
-          Funds and investments
-        </span>
-
-        <div className="w-44 sm:w-80 md:w-96 bg-white dark:bg-background-dark rounded-2xl shadow-md p-4 flex flex-col gap-3 transition-all duration-300">
-          <CirclePlus className="text-gray-500 dark:text-gray-400" size={40} />
-          <span className="text-sm font-semibold text-gray-800 dark:text-gray-100 truncate">
-            Add funds
-          </span>
-        </div>
-      </div>
+      <TransactionsView />
     </div>
   );
 }

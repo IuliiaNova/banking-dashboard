@@ -66,7 +66,7 @@ export const AccountOverview = () => {
 
   return (
     <section
-      className="bg-white dark:bg-background-dark px-6 py-2 rounded-3xl shadow-lg max-w-3xl mx-auto"
+      className="w-full sm:w-1/2 md:w-1/2 bg-white dark:bg-background-dark px-6 py-2 rounded-3xl shadow-lg max-w-3xl mx-auto "
       role="region"
       aria-labelledby="account-overview-title"
     >

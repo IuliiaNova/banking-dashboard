@@ -20,7 +20,7 @@ export default function FinancialUnit({
   const lastFourDigits = code.slice(-4);
 
   return (
-    <div className="w-44 sm:w-80 md:w-96 bg-white dark:bg-background-dark rounded-2xl shadow-md p-4 flex flex-col gap-3 transition-all duration-300">
+    <div className="w-44 sm:w-80 md:w-[21rem] px-6 bg-white dark:bg-background-dark rounded-2xl shadow-md p-4 flex flex-col gap-3 transition-all duration-300">
       <div className="flex items-center gap-3">
         {icon && <div className="text-xl text-rose-base">{icon}</div>}
         <span className="text-sm font-semibold text-gray-800 dark:text-gray-100 truncate">
