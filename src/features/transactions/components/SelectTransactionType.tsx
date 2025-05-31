@@ -12,7 +12,7 @@ const OPTIONS: { key: TransactionMethod; label: string }[] = [
 
 export const SelectTransactionMethod = ({ onSelect }: Props) => {
   return (
-    <section className="max-w-md w-full mx-auto p-6 rounded-2xl shadow-md bg-[var(--color-background-light)] dark:bg-[var(--color-background-dark)] transition-colors">
+    <section className="max-w-md w-full mx-auto p-6 rounded-2xl shadow-md bg-color-background-light dark:bg-background-dark transition-colors">
       <h2 className="text-xl font-semibold text-center mb-6 text-gray-800 dark:text-white">
         What would you like to do?
       </h2>
@@ -23,9 +23,9 @@ export const SelectTransactionMethod = ({ onSelect }: Props) => {
             key={key}
             onClick={() => onSelect(key)}
             className={`
-                bg-[var(--color-rose-base)] 
-                hover:bg-[var(--color-rose-hover)] 
-                active:bg-[var(--color-rose-active)]
+                bg-rose-base 
+                hover:bg-rose-hover 
+                active:bg-rose-active
                 text-white 
                 font-medium 
                 py-3 
@@ -35,9 +35,10 @@ export const SelectTransactionMethod = ({ onSelect }: Props) => {
                 focus:outline-none 
                 focus:ring-2 
                 focus:ring-offset-2 
-                focus:ring-[var(--color-rose-hover)] 
+                focus:ring--rose-hover 
                 focus:ring-offset-white 
-                dark:focus:ring-offset-[var(--color-background-dark)]
+                dark:focus:ring-offset-background-dark
+                cursor-pointer
               `}
           >
             {label}

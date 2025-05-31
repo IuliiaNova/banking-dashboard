@@ -6,18 +6,12 @@ import { v4 as uuid } from "uuid";
 import clsx from "clsx";
 import type { Transaction, TransactionMethod } from "../../../entities/models/transactions";
 
-// Zod schema con campo adicional para cuenta destino
 const schema = z.object({
   amount: z.number().min(0.01, "Amount must be greater than zero"),
   description: z.string().min(1, "Description is required"),
   date: z
     .string()
     .refine((val) => !isNaN(Date.parse(val)), "Invalid date format"),
-  destinationAccount: z
-    .string()
-    .min(10, "Destination account is required")
-    .max(34, "Account number too long")
-    .regex(/^[A-Z0-9]+$/, "Invalid account format"),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -25,16 +19,15 @@ type FormValues = z.infer<typeof schema>;
 interface Props {
   initial?: Transaction;
   onSuccess?: () => void;
-  setSelected?: React.Dispatch<React.SetStateAction<TransactionMethod | null>>;
+  setSelected?: React.Dispatch<React.SetStateAction<TransactionMethod | null>>
 }
 
-export const TransferForm = ({ initial, onSuccess, setSelected }: Props) => {
-  const { state, dispatch } = useTransactions("TransferForm");
+export const WithdrawalForm = ({ initial, onSuccess, setSelected }: Props) => {
+  const { state, dispatch } = useTransactions("WithdrawalForm");
 
   const {
     register,
     handleSubmit,
-    setValue,
     watch,
     reset,
     formState: { errors },
@@ -44,46 +37,47 @@ export const TransferForm = ({ initial, onSuccess, setSelected }: Props) => {
       amount: Math.abs(initial?.amount || 0),
       description: initial?.description || "",
       date: initial?.date || new Date().toISOString().split("T")[0],
-      destinationAccount: "", // default blank
     },
   });
 
   const amount = watch("amount");
 
   const currentBalance = state.transactions
-    .filter((tx) => tx.type === "Deposit")
-    .reduce((acc, tx) => acc + tx.amount, 0);
+  .filter(tx => tx.type === "Deposit")
+  .reduce((acc, tx) => acc + tx.amount, 0);
 
-  const isOverdraft = amount > currentBalance && !initial;
+
+  const isOverdraft =
+    amount > currentBalance && !initial;
+
+  const updateLocalStorage = (transactions: Transaction[]) => {
+    localStorage.setItem("transactionsData", JSON.stringify(transactions));
+  };
 
   const onSubmit = (data: FormValues) => {
     const newTransaction: Transaction = {
       id: initial?.id || uuid(),
-      amount: Math.abs(data.amount),
+      amount: Math.abs(data.amount), 
       description: data.description,
       date: data.date,
       type: "Withdrawal",
     };
 
+    let updatedTransactions: Transaction[] = [];
+
     if (initial) {
       dispatch({ type: "EDIT", payload: newTransaction });
+      updatedTransactions = state.transactions.map((tx) =>
+        tx.id === initial.id ? newTransaction : tx
+      );
     } else {
       dispatch({ type: "ADD", payload: newTransaction });
+      updatedTransactions = [...state.transactions, newTransaction];
     }
 
+    updateLocalStorage(updatedTransactions);
     reset();
     onSuccess?.();
-  };
-
-  const handleUndo = () => {
-    dispatch({ type: "UNDO" });
-  };
-
-  const handleReuse = () => {
-    if (!initial) return;
-    setValue("amount", Math.abs(initial.amount));
-    setValue("description", initial.description);
-    setValue("date", new Date().toISOString().split("T")[0]);
   };
 
   return (
@@ -92,7 +86,7 @@ export const TransferForm = ({ initial, onSuccess, setSelected }: Props) => {
       className="bg-gray-50 dark:bg-background-extra-dark rounded-xl p-4 sm:p-6 shadow space-y-6 max-w-lg mx-auto relative z-10"
     >
       <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-        {initial ? "Edit Transfer" : "New Transfer"}
+        {initial ? "Edit Withdrawal" : "New Withdrawal"}
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
@@ -120,27 +114,7 @@ export const TransferForm = ({ initial, onSuccess, setSelected }: Props) => {
             </p>
           )}
         </div>
-        <div>
-          <label className="text-sm text-gray-700 dark:text-gray-300 block mb-1">
-            Destination Account
-          </label>
-          <input
-            type="text"
-            {...register("destinationAccount")}
-            className={clsx(
-              "w-full rounded-md px-3 py-2 border",
-              "bg-white dark:bg-background-dark",
-              "text-gray-900 dark:text-white",
-              errors.destinationAccount ? "border-red-500" : "border-gray-300"
-            )}
-            placeholder="ESXX "
-          />
-          {errors.destinationAccount && (
-            <p className="text-xs text-red-500 mt-1">
-              {errors.destinationAccount.message}
-            </p>
-          )}
-        </div>
+
         <div className="sm:col-span-2">
           <label className="text-sm text-gray-700 dark:text-gray-300 block mb-1">
             Description
@@ -161,6 +135,7 @@ export const TransferForm = ({ initial, onSuccess, setSelected }: Props) => {
             </p>
           )}
         </div>
+
         <div className="sm:col-span-2">
           <label className="text-sm text-gray-700 dark:text-gray-300 block mb-1">
             Date
@@ -178,41 +153,23 @@ export const TransferForm = ({ initial, onSuccess, setSelected }: Props) => {
           />
         </div>
       </div>
+
       <div className="flex flex-col sm:flex-row gap-3 pt-4">
         <button
           type="submit"
           disabled={isOverdraft}
-          className="bg-[var(--color-rose-base)] hover:bg-[var(--color-rose-hover)] text-white font-medium py-2 px-4 rounded-md transition"
+          className="bg-rose-base hover:bg-rose-hover text-white font-medium py-2 px-4 rounded-md transition"
         >
-          {initial ? "Update" : "Add"} Transfer
+          {initial ? "Update Withdrawal" : "Withdraw Money"}
         </button>
-
-        {!initial && (
-          <>
-            <button
-              type="button"
-              onClick={handleUndo}
-              className="bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-white font-medium py-2 px-4 rounded-md transition"
-            >
-              Undo Last
-            </button>
-            <button
-              type="button"
-              onClick={handleReuse}
-              className="bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-white font-medium py-2 px-4 rounded-md transition"
-            >
-              Reuse transaction
-            </button>
-            <button
-              type="button"
-              disabled={isOverdraft}
-              className="bg-gray-600 hover:bg-rose-hover text-white font-medium py-2 px-4 rounded-md transition"
-              onClick={() => setSelected?.(null)}
-            >
-              Go back
-            </button>
-          </>
-        )}
+        <button
+          type="button"
+          disabled={isOverdraft}
+          className="bg-gray-600 hover:bg-rose-hover text-white font-medium py-2 px-4 rounded-md transition"
+          onClick={() => setSelected!(null)}
+        >
+          Go back
+        </button>
       </div>
     </form>
   );

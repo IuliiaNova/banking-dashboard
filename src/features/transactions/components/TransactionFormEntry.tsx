@@ -4,6 +4,8 @@ import { useState } from "react";
 import type { TransactionMethod } from "../../../entities/models/transactions";
 import { SelectTransactionMethod } from "./SelectTransactionType";
 import { TransferForm } from "./TransferForm";
+import { WithdrawalForm } from "./WithdrawalForm";
+import { BizumForm } from "./BizumForm";
 
 export const TransactionFormEntry = () => {
   const [selected, setSelected] = useState<TransactionMethod | null>(null);
@@ -17,9 +19,9 @@ export const TransactionFormEntry = () => {
       {!selected && <SelectTransactionMethod onSelect={handleSelect} />}
       {selected && (
         <div className="mt-6">
-          {selected === "transfer" && <TransferForm />}
-          {selected === "bizum" && "Bizum Form"}
-          {selected === "withdrawal" && "Withdraw Form"}
+          {selected === "transfer" && <TransferForm setSelected={setSelected} />}
+          {selected === "bizum" && <BizumForm setSelected={setSelected} />}
+          {selected === "withdrawal" && <WithdrawalForm setSelected={setSelected} />}
         </div>
       )}
     </div>
