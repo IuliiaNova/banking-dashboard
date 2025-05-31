@@ -87,25 +87,27 @@ const History = () => {
 
       <div className="h-[600px] overflow-y-auto space-y-2 pr-1 scroll-smooth scroll-hidden">
         {paginated.length > 0 ? (
-          paginated.map((t) => (
+          paginated.map((transaction) => (
             <div
-              key={t.id}
+              key={transaction.id}
               className="p-4 border rounded shadow-sm flex justify-between items-center bg-white dark:bg-[var(--color-background-dark)]"
             >
               <div>
-                <p className="font-semibold text-sm dark:text-white">
-                  {t.description}
+                <p className="font-bold text-sm text-gray-800 dark:text-gray-100">{transaction.date}</p>
+              </div>
+              <div>
+                <p className="font-medium text-sm text-gray-800 dark:text-gray-100">
+                  {transaction.description}
                 </p>
-                <p className="text-xs text-gray-500">{t.date}</p>
               </div>
               <div
                 className={`text-sm font-bold ${
-                  t.type === "Deposit"
+                  transaction.type === "Deposit"
                     ? "text-green-600 dark:text-green-400"
                     : "text-red-600 dark:text-red-400"
                 }`}
               >
-                {t.type === "Withdrawal" ? "-" : "+"}€{t.amount.toFixed(2)}
+                {transaction.type === "Withdrawal" ? "- " : "+ "}{transaction.amount.toFixed(2)}€
               </div>
             </div>
           ))
