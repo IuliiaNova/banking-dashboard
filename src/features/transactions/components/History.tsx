@@ -3,6 +3,8 @@ import { useTransactions } from "../../../features/transactions/store/transactio
 import TransactionFilters from "./TransactionFilters";
 import { File, SlidersHorizontal } from "lucide-react";
 import CSVmanage from "./csv/CSVmanage";
+import { TransferForm } from "./TransferForm";
+import type { Transaction } from "../../../entities/models/transactions";
 
 const PAGE_SIZE = 20;
 
@@ -21,6 +23,10 @@ const History = () => {
 
   const [showFilters, setShowFilters] = useState(false);
   const [showCSV, setShowCSV] = useState(false);
+  const [updateMode, setUpdateMode] = useState(false);
+  const [selectedTransfer, setSelectedTransfer] = useState<null | Transaction>(null);
+
+
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -90,10 +96,15 @@ const History = () => {
           paginated.map((transaction) => (
             <div
               key={transaction.id}
-              className="p-4 border rounded shadow-sm flex justify-between items-center bg-white dark:bg-[var(--color-background-dark)]"
+              className="p-4 border rounded shadow-sm flex justify-between items-center bg-white dark:bg-background-dark hover:bg-gray-500 cursor-pointer"
+              onClick={() => {
+                setSelectedTransfer(transaction);
+                setUpdateMode(true)}}
             >
               <div>
-                <p className="font-bold text-sm text-gray-800 dark:text-gray-100">{transaction.date}</p>
+                <p className="font-bold text-sm text-gray-800 dark:text-gray-100">
+                  {transaction.date}
+                </p>
               </div>
               <div>
                 <p className="font-medium text-sm text-gray-800 dark:text-gray-100">
@@ -107,7 +118,8 @@ const History = () => {
                     : "text-red-600 dark:text-red-400"
                 }`}
               >
-                {transaction.type === "Withdrawal" ? "- " : "+ "}{transaction.amount.toFixed(2)}€
+                {transaction.type === "Withdrawal" ? "- " : "+ "}
+                {transaction.amount.toFixed(2)}€
               </div>
             </div>
           ))

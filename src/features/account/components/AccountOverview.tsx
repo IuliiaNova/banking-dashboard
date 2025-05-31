@@ -49,7 +49,6 @@ export const AccountOverview = () => {
     .filter((t) => t.type === "Withdrawal")
     .reduce((sum, t) => sum + Math.abs(t.amount), 0);
 
-  // Skeleton loader para los valores
   const SkeletonBlock = ({ className = "" }) => (
     <div
       className={`bg-gray-300 dark:bg-gray-700 rounded animate-pulse ${className}`}
