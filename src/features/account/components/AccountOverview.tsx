@@ -102,7 +102,7 @@ export const AccountOverview = () => {
         </button>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4">
         <div
           className={`bg-white dark:bg-rose-base/5 rounded-2xl p-3 text-center shadow-inner ${
             loading === "pending" ? "cursor-wait" : ""
@@ -139,11 +139,15 @@ export const AccountOverview = () => {
               <button
                 type="button"
                 onClick={() => setShowCurrentMonth(!showCurrentMonth)}
-                className="inline-flex items-center px-3 py-1 text-sm font-medium text-gray-700 bg-gray-200 rounded-full hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-rose-base dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 transition"
+                className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border ${
+                  loading !== "success"
+                    ? "border-transparent bg-gray-200 dark:bg-gray-700 cursor-default"
+                    : "border-gray-200 dark:border-gray-700 bg-gray-20 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-rose-base transition"
+                } text-sm font-medium shadow-sm`}
                 aria-pressed={showCurrentMonth}
                 aria-label="Toggle between current month and total transactions"
               >
-                {showCurrentMonth ? "Mostrar Total" : "Mostrar Mes Actual"}
+                {showCurrentMonth ? "Show all" : "Current Month"}
               </button>
             </>
           )}

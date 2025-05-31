@@ -34,7 +34,7 @@ export default function FinancialUnit({
 
       {type === "card" ? (
         <div className="text-sm font-medium text-blue-600 dark:text-green-600 flex gap-2 items-center">
-          <div className="w-3 h-3 rounded-full bg-green-600"/>
+          <div className="w-3 h-3 rounded-full bg-green-600" />
           <span>{status || "Stateless"}</span>
         </div>
       ) : (

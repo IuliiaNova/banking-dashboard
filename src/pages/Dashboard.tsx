@@ -10,13 +10,13 @@ function Dashboard() {
   const {
     state: { transactions },
   } = useTransactions("AccountOverview");
-  const balance = calculateBalance(transactions)
+  const balance = calculateBalance(transactions);
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 ">
       <AccountOverview />
 
-      <div className="flex gap-6 justify-between">
+      <div className="flex items-center justify-center gap-6">
         <div
           onClick={() => navigate("/transactions-history")}
           className="cursor-pointer"
@@ -38,8 +38,8 @@ function Dashboard() {
         />
       </div>
 
-      <div className="flex flex-col gap-2">
-        <span className="mb-4 text-md font-semibold text-gray-800 dark:text-gray-100 truncate">
+      <div className="flex flex-col gap-2 items-center md:justify-center lg:justify-center justify-start">
+        <span className="mb-2 text-md font-semibold text-gray-800 dark:text-gray-100 truncate">
           Funds and investments
         </span>
 
