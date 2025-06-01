@@ -57,9 +57,9 @@ export const WithdrawalForm = ({ initial, onSuccess, setSelected }: Props) => {
   const onSubmit = (data: FormValues) => {
     const newTransaction: Transaction = {
       id: initial?.id || uuid(),
+      date: data.date,
       amount: -Math.abs(data.amount), 
       description: data.description,
-      date: data.date,
       type: "Withdrawal",
     };
 

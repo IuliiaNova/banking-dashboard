@@ -39,10 +39,7 @@ CSVUploader.handleFileChange = (e, transactions, dispatch) => {
     if (typeof text === "string") {
       try {
         const newTransactions = parseCSVToTransactions(text);
-        console.log("newTransactions", newTransactions);
-
         const merged = mergeTransactions(transactions, newTransactions);
-        console.log("merged", merged);
 
         dispatch({ type: "SET", payload: merged });
         alert("CSV uploaded and transactions merged.");

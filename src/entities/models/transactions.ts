@@ -3,6 +3,7 @@ export type TransactionType = "Deposit" | "Withdrawal";
 export type TransactionMethod = "bizum" | "transfer" | "withdrawal";
 
 export interface TransactionRaw {
+  Id?: string;
   Date: string;
   Amount: number;
   Description: string;

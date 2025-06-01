@@ -1,23 +1,28 @@
+import { v4 as uuidv4 } from "uuid";
 import type { Transaction, TransactionType } from "../../../entities/models/transactions";
 
-export const convertToCSV = (data: Transaction[]): string => {
-  if (data.length === 0) return "";
+export function convertToCSV(transactions: Record<string, any>[]): string {
+  if (transactions.length === 0) return "";
 
-  const headers = Object.keys(data[0]).map((key) => key.toUpperCase());
-  const rows = data.map((row) =>
-    Object.values(row)
-      .map((value) => {
-        if (value == null) return "";
-        const str = value.toString();
-        return str.includes(",") || str.includes("\n") || str.includes('"')
-          ? `"${str.replace(/"/g, '""')}"`
-          : str;
-      })
-      .join(",")
-  );
+  const formatHeader = (key: string) =>
+    key
+      .replace(/_/g, " ")
+      .replace(/\w\S*/g, w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
 
-  return [headers.join(","), ...rows].join("\r\n");
-};
+  const keys = Object.keys(transactions[0]);
+
+  const headers = keys.map(formatHeader).join(",");
+
+  const rows = transactions
+    .map(tx =>
+      keys
+        .map(key => `"${String(tx[key]).replace(/"/g, '""')}"`)
+        .join(",")
+    )
+    .join("\n");
+
+  return `${headers}\n${rows}`;
+}
 
 export const parseCSVToTransactions = (csv: string): Transaction[] => {
   const lines = csv.trim().split(/\r?\n/);
@@ -36,7 +41,7 @@ export const parseCSVToTransactions = (csv: string): Transaction[] => {
     });
 
     return {
-      id: raw.id || "",
+      id: raw.id ?? uuidv4(),
       date: raw.date,
       amount: parseFloat(raw.amount) || 0,
       description: raw.description || "",

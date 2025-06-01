@@ -54,7 +54,6 @@ const History = () => {
   );
 
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
-  console.log("paginated",paginated);
 
   return (
     <section className="w-full max-w-3xl mx-auto px-4 py-4">
@@ -70,7 +69,7 @@ const History = () => {
             {showFilters ? (
               <SlidersHorizontal color="#ef1660" />
             ) : (
-              <SlidersHorizontal color="white" />
+              <SlidersHorizontal color="#71717A" />
             )}
           </button>
 
@@ -78,7 +77,7 @@ const History = () => {
             onClick={() => setShowCSV(!showCSV)}
             className="text-sm text-rose-base hover:text-color-rose-hover cursor-pointer"
           >
-            {showCSV ? <File color="#ef1660" /> : <File color="white" />}
+            {showCSV ? <File color="#ef1660" /> : <File color="#71717A" />}
           </button>
         </div>
       </div>
