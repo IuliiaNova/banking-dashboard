@@ -29,7 +29,6 @@ const Select = ({
     if (!open) setHighlighted(-1);
   }, [open]);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
@@ -96,7 +95,7 @@ const Select = ({
               role="option"
               aria-selected={value === option.value}
               className={`px-3 py-2 cursor-pointer ${
-                idx === highlighted ? "bg-blue-100 dark:bg-blue-900" : ""
+                idx === highlighted ? "bg-rose-50 dark:bg-rose-900" : ""
               } ${value === option.value ? "font-bold" : ""}`}
               onMouseEnter={() => setHighlighted(idx)}
               onMouseDown={() => {

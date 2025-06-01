@@ -26,7 +26,9 @@ const History = () => {
   const [showCSV, setShowCSV] = useState(false);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e:
+      | React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+      | { target: { name: string; value: string } }
   ) => {
     setFilter({ ...filter, [e.target.name]: e.target.value, page: 1 });
   };

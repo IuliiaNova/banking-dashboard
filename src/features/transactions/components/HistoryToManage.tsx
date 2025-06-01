@@ -36,7 +36,9 @@ const HistoryToManage = ({ title, setSelected, onClick }: Props) => {
   const [showFilters, setShowFilters] = useState(false);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e:
+      | React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+      | { target: { name: string; value: string } }
   ) => {
     setFilter({ ...filter, [e.target.name]: e.target.value, page: 1 });
   };
@@ -49,7 +51,6 @@ const HistoryToManage = ({ title, setSelected, onClick }: Props) => {
         const to = filter.to ? new Date(filter.to) : null;
 
         return (
-          t.type === "Withdrawal" &&
           (!from || date >= from) &&
           (!to || date <= to) &&
           t.description.toLowerCase().includes(filter.description.toLowerCase())

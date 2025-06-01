@@ -31,14 +31,14 @@ export default function TransactionsView() {
               className="flex justify-between items-center py-2 text-gray-800 dark:text-gray-100 text-xs"
               role="listitem"
             >
-              <span className="font-medium">
+              <span className="w-[25%] font-medium">
                 {formatDate(transaction.date)}
               </span>
-              <span className="truncate max-w-[150px] text-start">
+              <span className="w-[50%] truncate max-w-[150px] text-start">
                 {transaction.description}
               </span>
               <span
-                className={`text-sm font-semibold ${getAmountStyle(
+                className={`w-[25%] text-sm font-semibold ${getAmountStyle(
                   transaction.type
                 )}`}
               >

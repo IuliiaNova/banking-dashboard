@@ -39,7 +39,6 @@ function Dashboard() {
           icon={<CreditCard className="text-gray-700 dark:text-gray-300" />}
         />
       </div>
-
       <TransactionsView />
     </div>
   );
