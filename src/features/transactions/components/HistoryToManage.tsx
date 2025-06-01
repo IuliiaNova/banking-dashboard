@@ -60,7 +60,7 @@ const HistoryToManage = ({ title, setSelected, onClick }: Props) => {
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
 
   return (
-    <section className="w-full max-w-3xl mx-auto px-4 ">
+    <section className="w-full max-w-3xl mx-auto">
       <button
         type="button"
         className="font-medium pb-2 transition flex gap-2 items-center"
@@ -103,18 +103,18 @@ const HistoryToManage = ({ title, setSelected, onClick }: Props) => {
               className="p-4 border border-gray-300 dark:border-gray-100 rounded shadow-sm flex justify-between items-center bg-white dark:bg-background-dark hover:bg-gray-100 dark:hover:bg-gray-300 cursor-pointer"
               onClick={() => onClick?.(transaction)}
             >
-              <div>
+              <div className="w-[35%]">
                 <p className="font-bold text-sm text-gray-800 dark:text-gray-100">
                   {transaction.date}
                 </p>
               </div>
-              <div>
+              <div className="w-[40%]">
                 <p className="font-medium text-sm text-gray-800 dark:text-gray-100">
                   {transaction.description}
                 </p>
               </div>
               <div
-                className={`text-sm font-bold ${
+                className={`text-sm font-bold w-[25%] ${
                   transaction.type === "Deposit"
                     ? "text-green-600 dark:text-green-400"
                     : "text-red-600 dark:text-red-400"
