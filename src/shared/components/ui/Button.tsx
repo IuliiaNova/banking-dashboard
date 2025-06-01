@@ -25,7 +25,7 @@ const sizes = {
   lg: "text-lg px-5 py-3",
 };
 
-export const Button: React.FC<ButtonProps> = ({
+export const Button = ({
   children,
   variant = "primary",
   size = "md",
@@ -33,7 +33,7 @@ export const Button: React.FC<ButtonProps> = ({
   disabled = false,
   className,
   onClick,
-}) => {
+}: ButtonProps) => {
   return (
     <button
       onClick={onClick}

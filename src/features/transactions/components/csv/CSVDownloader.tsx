@@ -1,4 +1,3 @@
-import React from "react";
 import { Download } from "lucide-react";
 import type { Transaction } from "../../../../entities/models/transactions";
 import { convertToCSV } from "../../services/csv";
@@ -9,7 +8,7 @@ interface Props {
   showAlert: ({ type, message }: { type: AlertType; message: string }) => void;
 }
 
-const CSVDownloader: React.FC<Props> = ({ transactions, showAlert }) => {
+const CSVDownloader = ({ transactions, showAlert }: Props) => {
   const handleDownload = () => {
     if (!transactions || transactions.length === 0) {
       alert("No transactions to download.");

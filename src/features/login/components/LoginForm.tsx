@@ -9,13 +9,13 @@ interface LoginFormProps {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({
+const LoginForm = ({
   username,
   password,
   onUsernameChange,
   onPasswordChange,
   onSubmit,
-}) => {
+}: LoginFormProps) => {
   return (
     <form
       onSubmit={onSubmit}

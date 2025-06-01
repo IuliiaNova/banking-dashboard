@@ -12,7 +12,7 @@ interface InputFieldProps {
   ariaDescribedBy?: string;
 }
 
-const InputField: React.FC<InputFieldProps> = ({
+const InputField = ({
   id,
   label,
   type,
@@ -22,7 +22,7 @@ const InputField: React.FC<InputFieldProps> = ({
   placeholder,
   required = false,
   ariaDescribedBy,
-}) => (
+}: InputFieldProps) => (
   <div>
     <label
       htmlFor={id}
