@@ -1,12 +1,20 @@
 import React, { useMemo, useState } from "react";
 import { useTransactions } from "../../../features/transactions/store/transactions.context";
 import TransactionFilters from "./TransactionFilters";
-import { File, SlidersHorizontal } from "lucide-react";
-import CSVmanage from "./csv/CSVmanage";
+import { ArrowLeft, SlidersHorizontal } from "lucide-react";
+import type { SelectOperationType } from "../../../entities/models/transactions";
 
 const PAGE_SIZE = 20;
 
-const History = () => {
+interface Props {
+  title: string;
+  setSelected?: React.Dispatch<
+    React.SetStateAction<SelectOperationType | null>
+  >;
+  onClick?: (id: string) => void;
+}
+
+const HistoryToManage = ({ title, setSelected, onClick }: Props) => {
   const {
     state: { transactions },
   } = useTransactions("History");
@@ -14,13 +22,12 @@ const History = () => {
   const [filter, setFilter] = useState({
     from: "",
     to: "",
-    type: "All",
+    type: "Withdrawal",
     description: "",
     page: 1,
   });
 
   const [showFilters, setShowFilters] = useState(false);
-  const [showCSV, setShowCSV] = useState(false);
   //const [updateMode, setUpdateMode] = useState(false);
   //const [selectedTransfer, setSelectedTransfer] = useState<null | Transaction>(null);
 
@@ -38,9 +45,9 @@ const History = () => {
         const to = filter.to ? new Date(filter.to) : null;
 
         return (
+          t.type === "Withdrawal" &&
           (!from || date >= from) &&
           (!to || date <= to) &&
-          (filter.type === "All" || t.type === filter.type) &&
           t.description.toLowerCase().includes(filter.description.toLowerCase())
         );
       })
@@ -55,10 +62,18 @@ const History = () => {
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
 
   return (
-    <section className="w-full max-w-3xl mx-auto px-4 py-4">
+    <section className="w-full max-w-3xl mx-auto px-4 ">
+      <button
+        type="button"
+        className="font-medium pb-2 transition flex gap-2 items-center"
+        onClick={() => setSelected?.(null)}
+      >
+        <ArrowLeft color="#ef1660" />
+        <span className="text-rose-base">Go back</span>
+      </button>
       <div className="flex items-center justify-between mb-4 px-2">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-          Transactions
+        <h2 className="text-base font-semibold text-gray-900 dark:text-white">
+          {title}
         </h2>
         <div className="flex gap-4">
           <button
@@ -66,26 +81,21 @@ const History = () => {
             className="text-sm text-rose-base hover:text-color-rose-hover cursor-pointer"
           >
             {showFilters ? (
-              <SlidersHorizontal color="#ef1660" />
+              <SlidersHorizontal color="#ef1660" size={20} />
             ) : (
-              <SlidersHorizontal color="#71717A" />
+              <SlidersHorizontal color="#71717A" size={20} />
             )}
-          </button>
-
-          <button
-            onClick={() => setShowCSV(!showCSV)}
-            className="text-sm text-rose-base hover:text-color-rose-hover cursor-pointer"
-          >
-            {showCSV ? <File color="#ef1660" /> : <File color="#71717A" />}
           </button>
         </div>
       </div>
 
       {showFilters && (
-        <TransactionFilters filter={filter} onChange={handleChange} />
+        <TransactionFilters
+          filter={filter}
+          withType={false}
+          onChange={handleChange}
+        />
       )}
-
-      {showCSV && <CSVmanage />}
 
       <div className="h-[600px] overflow-y-auto space-y-2 pr-1 scroll-smooth scroll-hidden">
         {paginated.length > 0 ? (
@@ -93,6 +103,7 @@ const History = () => {
             <div
               key={transaction.id}
               className="p-4 border border-gray-300 dark:border-gray-100 rounded shadow-sm flex justify-between items-center bg-white dark:bg-background-dark hover:bg-gray-100 dark:hover:bg-gray-300 cursor-pointer"
+              onClick={() => onClick?.(transaction.id)}
             >
               <div>
                 <p className="font-bold text-sm text-gray-800 dark:text-gray-100">
@@ -143,4 +154,4 @@ const History = () => {
   );
 };
 
-export default History;
+export default HistoryToManage;

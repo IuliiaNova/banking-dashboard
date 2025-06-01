@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransactions } from "../store/transactions.context";
 import { v4 as uuid } from "uuid";
 import clsx from "clsx";
-import type { Transaction, TransactionMethod } from "../../../entities/models/transactions";
+import type { SelectOperationType, Transaction } from "../../../entities/models/transactions";
 
 const schema = z.object({
   amount: z.number().min(0.01, "Amount must be greater than zero"),
@@ -22,7 +22,7 @@ type FormValues = z.infer<typeof schema>;
 interface Props {
   initial?: Transaction;
   onSuccess?: () => void;
-  setSelected?: React.Dispatch<React.SetStateAction<TransactionMethod | null>>;
+  setSelected?: React.Dispatch<React.SetStateAction<SelectOperationType | null>>;
 }
 
 export const BizumForm = ({ initial, onSuccess, setSelected }: Props) => {

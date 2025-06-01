@@ -4,9 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransactions } from "../store/transactions.context";
 import { v4 as uuid } from "uuid";
 import clsx from "clsx";
-import type { Transaction, TransactionMethod } from "../../../entities/models/transactions";
+import type {
+  SelectOperationType,
+  Transaction,
+} from "../../../entities/models/transactions";
 
-// Zod schema con campo adicional para cuenta destino
 const schema = z.object({
   amount: z.number().min(0.01, "Amount must be greater than zero"),
   description: z.string().min(1, "Description is required"),
@@ -25,7 +27,9 @@ type FormValues = z.infer<typeof schema>;
 interface Props {
   initial?: Transaction;
   onSuccess?: () => void;
-  setSelected?: React.Dispatch<React.SetStateAction<TransactionMethod | null>>;
+  setSelected?: React.Dispatch<
+    React.SetStateAction<SelectOperationType | null>
+  >;
 }
 
 export const TransferForm = ({ initial, onSuccess, setSelected }: Props) => {
@@ -75,16 +79,6 @@ export const TransferForm = ({ initial, onSuccess, setSelected }: Props) => {
     onSuccess?.();
   };
 
-  const handleUndo = () => {
-    dispatch({ type: "UNDO" });
-  };
-
-  const handleReuse = () => {
-    if (!initial) return;
-    setValue("amount", Math.abs(initial.amount));
-    setValue("description", initial.description);
-    setValue("date", new Date().toISOString().split("T")[0]);
-  };
 
   return (
     <form
@@ -115,9 +109,7 @@ export const TransferForm = ({ initial, onSuccess, setSelected }: Props) => {
             <p className="text-xs text-red-500 mt-1">{errors.amount.message}</p>
           )}
           {isOverdraft && (
-            <p className="text-xs text-orange-500 mt-1">
-              Insufficient balance
-            </p>
+            <p className="text-xs text-orange-500 mt-1">Insufficient balance</p>
           )}
         </div>
         <div>
@@ -186,33 +178,14 @@ export const TransferForm = ({ initial, onSuccess, setSelected }: Props) => {
         >
           {initial ? "Update" : "Add"} Transfer
         </button>
-
-        {!initial && (
-          <>
-            <button
-              type="button"
-              onClick={handleUndo}
-              className="bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-white font-medium py-2 px-4 rounded-md transition"
-            >
-              Undo Last
-            </button>
-            <button
-              type="button"
-              onClick={handleReuse}
-              className="bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-white font-medium py-2 px-4 rounded-md transition"
-            >
-              Reuse transaction
-            </button>
-            <button
-              type="button"
-              disabled={isOverdraft}
-              className="bg-gray-600 hover:bg-rose-hover text-white font-medium py-2 px-4 rounded-md transition"
-              onClick={() => setSelected?.(null)}
-            >
-              Go back
-            </button>
-          </>
-        )}
+        <button
+          type="button"
+          disabled={isOverdraft}
+          className="bg-gray-600 hover:bg-rose-hover text-white font-medium py-2 px-4 rounded-md transition"
+          onClick={() => setSelected?.(null)}
+        >
+          Go back
+        </button>
       </div>
     </form>
   );
