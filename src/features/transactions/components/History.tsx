@@ -96,7 +96,7 @@ const History = () => {
           paginated.map((transaction) => (
             <div
               key={transaction.id}
-              className="p-4 border rounded shadow-sm flex justify-between items-center bg-white dark:bg-background-dark hover:bg-gray-500 cursor-pointer"
+              className="p-4 border border-gray-300 dark:border-gray-100 rounded shadow-sm flex justify-between items-center bg-white dark:bg-background-dark hover:bg-gray-100 dark:hover:bg-gray-300 cursor-pointer"
               onClick={() => {
                 setSelectedTransfer(transaction);
                 setUpdateMode(true)}}

@@ -124,7 +124,7 @@ export const AccountOverview = () => {
           )}
         </div>
 
-        <div className="flex items-center justify-between px-4 mb-2">
+        <div className="flex items-center justify-between px-4">
           {loading === "pending" ? (
             <>
               <SkeletonBlock className="h-6 w-32" />
@@ -132,7 +132,7 @@ export const AccountOverview = () => {
             </>
           ) : (
             <>
-              <p className="text-lg text-white font-semibold">
+              <p className="text-lg text-gray-800 dark:text-white font-semibold">
                 {showCurrentMonth ? "Current month" : "Total"}
               </p>
               <button
@@ -154,7 +154,7 @@ export const AccountOverview = () => {
 
         <div className="flex justify-between px-4 gap-4">
           <div
-            className="text-center shadow-inner rounded-lg pb-2 flex-1"
+            className="text-center shadow-inner rounded-lg py-2 flex-1"
             aria-label={
               showCurrentMonth ? "Incomes for current month" : "Total incomes"
             }
@@ -176,7 +176,7 @@ export const AccountOverview = () => {
           </div>
 
           <div
-            className="text-center shadow-inner rounded-lg pb-2 flex-1"
+            className="text-center shadow-inner rounded-lg py-2 flex-1"
             aria-label={
               showCurrentMonth ? "Expenses for current month" : "Total expenses"
             }
