@@ -8,7 +8,7 @@ import type {
   SelectOperationType,
   Transaction,
 } from "../../../entities/models/transactions";
-import { useAlert } from "../../../shared/store/alert.context";
+import { useAlert } from "../../../shared/store/alert/alert.context";
 import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
@@ -86,7 +86,7 @@ export const BizumForm = ({ onSuccess, setSelected }: Props) => {
     reset();
     onSuccess?.();
     setSelected?.(null);
-    navigate("/transactions-history")
+    navigate("/transactions-history");
   };
 
   return (

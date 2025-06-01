@@ -2,7 +2,7 @@ import React from "react";
 import { Download } from "lucide-react";
 import type { Transaction } from "../../../../entities/models/transactions";
 import { convertToCSV } from "../../services/csv";
-import type { AlertType } from "../../../../shared/store/alert.context";
+import type { AlertType } from "../../../../shared/store/alert/alert.context";
 
 interface Props {
   transactions: Transaction[];

@@ -8,7 +8,7 @@ import type {
   SelectOperationType,
   Transaction,
 } from "../../../entities/models/transactions";
-import { useAlert } from "../../../shared/store/alert.context";
+import { useAlert } from "../../../shared/store/alert/alert.context";
 import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
@@ -49,7 +49,7 @@ export const TransferForm = ({ setSelected }: Props) => {
       amount: 0,
       description: "",
       date: new Date().toISOString().split("T")[0],
-      destinationAccount: "", 
+      destinationAccount: "",
     },
   });
 
@@ -78,7 +78,7 @@ export const TransferForm = ({ setSelected }: Props) => {
 
     reset();
     setSelected?.(null);
-    navigate("/transactions-history")
+    navigate("/transactions-history");
   };
 
   return (

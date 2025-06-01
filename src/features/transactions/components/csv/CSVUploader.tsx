@@ -4,7 +4,7 @@ import type { Transaction } from "../../../../entities/models/transactions";
 import type { Dispatch } from "../../store/transactions.context";
 import { parseCSVToTransactions } from "../../services/csv";
 import { mergeTransactions } from "../../utils/mergeTransactios";
-import type { AlertType } from "../../../../shared/store/alert.context";
+import type { AlertType } from "../../../../shared/store/alert/alert.context";
 
 interface CSVUploaderProps {
   onClick: () => void;
@@ -37,8 +37,7 @@ CSVUploader.handleFileChange = (e, transactions, dispatch, showAlert) => {
   if (!file) return;
 
   const isCSV =
-    file.type === "text/csv" ||
-    file.name.toLowerCase().endsWith(".csv");
+    file.type === "text/csv" || file.name.toLowerCase().endsWith(".csv");
 
   if (!isCSV) {
     showAlert({ type: "error", message: "Please upload a valid CSV file." });

@@ -21,8 +21,6 @@ const History = () => {
 
   const [showFilters, setShowFilters] = useState(false);
   const [showCSV, setShowCSV] = useState(false);
-  //const [updateMode, setUpdateMode] = useState(false);
-  //const [selectedTransfer, setSelectedTransfer] = useState<null | Transaction>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>

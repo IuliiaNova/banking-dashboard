@@ -1,7 +1,9 @@
-import { TransactionFormEntry } from "../features/transactions/components/TransactionFormEntry";
+import TransactionFormEntry from "../features/transactions/components/TransactionFormEntry";
 
-export default function Transactions() {
+function Transactions() {
   return (
     <TransactionFormEntry />
   )
 }
+
+export default Transactions;

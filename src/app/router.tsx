@@ -21,7 +21,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <Layout />, // Layout wrapper for protected routes
+    element: <Layout />, 
     children: [
       {
         path: "dashboard",

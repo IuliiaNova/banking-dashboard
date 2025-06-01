@@ -11,11 +11,11 @@ import { BizumForm } from "./BizumForm";
 import HistoryToManage from "./HistoryToManage";
 import { useTransactions } from "../store/transactions.context";
 import { TransactionModalForm } from "../components/TransactionModalForm";
-import { useAlert } from "../../../shared/store/alert.context";
+import { useAlert } from "../../../shared/store/alert/alert.context";
 import { useNavigate } from "react-router-dom";
 import { ModalConfirm } from "../../../shared/components/ui/ModalConfirm";
 
-export const TransactionFormEntry = () => {
+const TransactionFormEntry = () => {
   const { showAlert } = useAlert();
   const navigate = useNavigate();
 
@@ -122,3 +122,5 @@ export const TransactionFormEntry = () => {
     </div>
   );
 };
+
+export default TransactionFormEntry;
