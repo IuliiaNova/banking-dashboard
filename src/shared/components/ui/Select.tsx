@@ -87,7 +87,7 @@ const Select = ({
         <ul
           tabIndex={-1}
           role="listbox"
-          className="absolute left-0 z-50 mt-1 w-full rounded-lg bg-white dark:bg-background-dark shadow-lg border py-1 text-sm max-h-48 overflow-auto"
+          className="absolute left-0 z-50 mt-1 w-full rounded-lg bg-gray-50 dark:bg-background-dark shadow-lg border border-gray-500 py-1 text-sm max-h-48 overflow-auto"
         >
           {options.map((option, idx) => (
             <li
