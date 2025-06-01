@@ -4,18 +4,21 @@ import type { Transaction } from "../../../../entities/models/transactions";
 import type { Dispatch } from "../../store/transactions.context";
 import { parseCSVToTransactions } from "../../services/csv";
 import { mergeTransactions } from "../../utils/mergeTransactios";
+import type { AlertType } from "../../../../shared/store/alert.context";
 
 interface CSVUploaderProps {
   onClick: () => void;
   transactions: Transaction[];
   dispatch: Dispatch;
+  showAlert: ({ type, message }: { type: AlertType; message: string }) => void;
 }
 
 const CSVUploader: React.FC<CSVUploaderProps> & {
   handleFileChange: (
     e: React.ChangeEvent<HTMLInputElement>,
     transactions: Transaction[],
-    dispatch: Dispatch
+    dispatch: Dispatch,
+    showAlert: ({ type, message }: { type: AlertType; message: string }) => void
   ) => void;
 } = ({ onClick }) => (
   <button
@@ -29,9 +32,19 @@ const CSVUploader: React.FC<CSVUploaderProps> & {
   </button>
 );
 
-CSVUploader.handleFileChange = (e, transactions, dispatch) => {
+CSVUploader.handleFileChange = (e, transactions, dispatch, showAlert) => {
   const file = e.target.files?.[0];
   if (!file) return;
+
+  const isCSV =
+    file.type === "text/csv" ||
+    file.name.toLowerCase().endsWith(".csv");
+
+  if (!isCSV) {
+    showAlert({ type: "error", message: "Please upload a valid CSV file." });
+    e.target.value = "";
+    return;
+  }
 
   const reader = new FileReader();
   reader.onload = (event) => {
@@ -42,9 +55,9 @@ CSVUploader.handleFileChange = (e, transactions, dispatch) => {
         const merged = mergeTransactions(transactions, newTransactions);
 
         dispatch({ type: "SET", payload: merged });
-        alert("CSV uploaded and transactions merged.");
+        showAlert({ type: "success", message: "CSV uploaded successfully." });
       } catch (error) {
-        alert("Error parsing CSV.");
+        showAlert({ type: "error", message: "Error uploading CSV." });
         console.error(error);
       }
     }

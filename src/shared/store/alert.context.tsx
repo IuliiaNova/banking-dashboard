@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 
-type AlertType = "success" | "error";
+export type AlertType = "success" | "error";
 
 type AlertContextType = {
   showAlert: ({type, message}: {type: AlertType, message: string}) => void;

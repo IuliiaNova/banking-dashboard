@@ -2,12 +2,14 @@ import { useRef } from "react";
 import { useTransactions } from "../../store/transactions.context";
 import CSVUploader from "./CSVUploader";
 import CSVDownloader from "./CSVDownloader";
+import { useAlert } from "../../../../shared/store/alert.context";
 
 const CSVManage = () => {
   const {
     state: { transactions },
     dispatch,
   } = useTransactions("CSVManage");
+  const { showAlert } = useAlert(); 
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -21,7 +23,7 @@ const CSVManage = () => {
         type="file"
         accept=".csv"
         ref={fileInputRef}
-        onChange={(e) => CSVUploader.handleFileChange(e, transactions, dispatch )}
+        onChange={(e) => CSVUploader.handleFileChange(e, transactions, dispatch, showAlert )}
         className="hidden"
         aria-hidden="true"
       />
@@ -30,8 +32,9 @@ const CSVManage = () => {
         onClick={handleFileClick}
         transactions={transactions}
         dispatch={dispatch}
+        showAlert={showAlert}
       />
-        <CSVDownloader transactions={transactions} />
+        <CSVDownloader transactions={transactions}  showAlert={showAlert}/>
       </div>
     </>
   );

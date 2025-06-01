@@ -2,12 +2,15 @@ import React from "react";
 import { Download } from "lucide-react";
 import type { Transaction } from "../../../../entities/models/transactions";
 import { convertToCSV } from "../../services/csv";
+import type { AlertType } from "../../../../shared/store/alert.context";
 
 interface Props {
   transactions: Transaction[];
+  showAlert: ({ type, message }: { type: AlertType; message: string }) => void;
+
 }
 
-const CSVDownloader: React.FC<Props> = ({ transactions }) => {
+const CSVDownloader: React.FC<Props> = ({ transactions, showAlert }) => {
   const handleDownload = () => {
     if (!transactions || transactions.length === 0) {
       alert("No transactions to download.");
@@ -26,6 +29,8 @@ const CSVDownloader: React.FC<Props> = ({ transactions }) => {
     document.body.removeChild(link);
 
     URL.revokeObjectURL(url);
+
+    showAlert({ type: "success", message: "CSV downloaded successfully." });
   };
 
   return (
