@@ -22,14 +22,14 @@ const TransactionFilters = ({ filter, withType = true, onChange }: Props) => {
           name="from"
           value={filter.from}
           onChange={onChange}
-          className="border rounded px-2 py-1 text-sm w-full sm:w-auto dark:bg-[var(--color-background-dark)] dark:text-white"
+          className="border rounded px-2 py-1 text-sm w-full sm:w-auto dark:bg-background-dark dark:text-white"
         />
         <input
           type="date"
           name="to"
           value={filter.to}
           onChange={onChange}
-          className="border rounded px-2 py-1 text-sm w-full sm:w-auto dark:bg-[var(--color-background-dark)] dark:text-white"
+          className="border rounded px-2 py-1 text-sm w-full sm:w-auto dark:bg-background-dark dark:text-white"
         />
       </div>
       <input
@@ -38,14 +38,14 @@ const TransactionFilters = ({ filter, withType = true, onChange }: Props) => {
         value={filter.description}
         onChange={onChange}
         placeholder="Buscar descripción"
-        className="border rounded px-2 py-1 text-sm w-full sm:w-auto dark:bg-[var(--color-background-dark)] dark:text-white"
+        className="border rounded px-2 py-1 text-sm w-full sm:w-auto dark:bg-background-dark dark:text-white"
       />
       {withType && (
         <select
           name="type"
           value={filter.type}
           onChange={onChange}
-          className="border rounded px-2 py-1 text-sm w-full sm:w-auto dark:bg-[var(--color-background-dark)] dark:text-white"
+          className="border rounded px-2 py-1 text-sm w-full sm:w-auto bg-gray-50 dark:bg-background-dark dark:text-white"
         >
           <option value="All">Todos</option>
           <option value="Deposit">Depósitos</option>

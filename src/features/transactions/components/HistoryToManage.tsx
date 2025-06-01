@@ -146,7 +146,7 @@ const HistoryToManage = ({ title, setSelected, onClick }: Props) => {
               onClick={() => setFilter({ ...filter, page: idx + 1 })}
               className={`px-3 py-1 rounded border text-sm transition ${
                 filter.page === idx + 1
-                  ? "bg-[var(--color-rose-base)] text-white"
+                  ? "bg-rose-base text-white"
                   : "bg-white dark:bg-gray-700 text-gray-800 dark:text-white"
               }`}
             >

@@ -175,7 +175,7 @@ export const TransferForm = ({ setSelected }: Props) => {
         <button
           type="submit"
           disabled={isOverdraft}
-          className="bg-[var(--color-rose-base)] hover:bg-[var(--color-rose-hover)] text-white font-medium py-2 px-4 rounded-md transition"
+          className="bg-rose-base hover:bg-rose-hover text-white font-medium py-2 px-4 rounded-md transition"
         >
           Make a Transfer
         </button>
