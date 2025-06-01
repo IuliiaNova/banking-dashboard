@@ -81,3 +81,7 @@ For watch mode:
 ```bash
 npm run test -- --watch
 ```     
+
+### Build
+
+![Build Status](public/assets/build.png)
