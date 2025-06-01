@@ -118,7 +118,10 @@ export const AccountOverview = () => {
           {loading === "pending" ? (
             <SkeletonBlock className="h-8 w-32 mx-auto" />
           ) : (
-            <p className="text-lg font-extrabold text-indigo-900 dark:text-indigo-100">
+            <p
+              data-testid="balance"
+              className="text-lg font-extrabold text-indigo-900 dark:text-indigo-100"
+            >
               {renderValue(balance)}
             </p>
           )}
@@ -160,6 +163,7 @@ export const AccountOverview = () => {
             }
           >
             <p
+              data-testid="incomes"
               className={`text-sm font-semibold text-green-700 dark:text-green-300 uppercase tracking-wide ${
                 loading === "pending" ? "invisible" : ""
               }`}
@@ -182,6 +186,7 @@ export const AccountOverview = () => {
             }
           >
             <p
+              data-testid="expenses"
               className={`text-sm font-semibold text-red-700 dark:text-red-300 uppercase tracking-wide ${
                 loading === "pending" ? "invisible" : ""
               }`}
