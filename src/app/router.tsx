@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { Layout } from "../widgets/Layout";
+import IncomeExpenseDashboard from "../features/insights/IncomeExpenseDashboard";
 
 const Login = lazy(() => import("../pages/Login"));
 const Dashboard = lazy(() => import("../pages/Dashboard"));
@@ -44,6 +45,14 @@ export const router = createBrowserRouter([
         element: (
           <Suspense fallback={LoadingFallback}>
             <Transactions />
+          </Suspense>
+        ),
+      },
+      {
+        path: "insights",
+        element: (
+          <Suspense fallback={LoadingFallback}>
+            <IncomeExpenseDashboard />
           </Suspense>
         ),
       },
