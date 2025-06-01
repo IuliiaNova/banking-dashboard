@@ -1,6 +1,9 @@
 // src/features/transactions/pages/TransactionFormEntry.tsx
 import { useState } from "react";
-import type { SelectOperationType, Transaction } from "../../../entities/models/transactions";
+import type {
+  SelectOperationType,
+  Transaction,
+} from "../../../entities/models/transactions";
 import { SelectTransactionMethod } from "./SelectTransactionType";
 import { TransferForm } from "./TransferForm";
 import { WithdrawalForm } from "./WithdrawalForm";
@@ -10,6 +13,7 @@ import { useTransactions } from "../store/transactions.context";
 import { TransactionModalForm } from "../components/TransactionModalForm";
 import { useAlert } from "../../../shared/store/alert.context";
 import { useNavigate } from "react-router-dom";
+import { ModalConfirm } from "../../../shared/components/ui/ModalConfirm";
 
 export const TransactionFormEntry = () => {
   const { showAlert } = useAlert();
@@ -18,7 +22,11 @@ export const TransactionFormEntry = () => {
   const { dispatch } = useTransactions("TransactionFormEntry");
   const [selected, setSelected] = useState<SelectOperationType | null>(null);
   const [modalMode, setModalMode] = useState<"update" | "reuse" | null>(null);
-  const [transactionToEdit, setTransactionToEdit] = useState<Transaction | null>(null);
+  const [transactionToEdit, setTransactionToEdit] =
+    useState<Transaction | null>(null);
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const [transactionToDelete, setTransactionToDelete] =
+    useState<Transaction | null>(null);
 
   const handleSelect = (method: SelectOperationType) => setSelected(method);
 
@@ -42,16 +50,25 @@ export const TransactionFormEntry = () => {
       message: "Operation was completed successfully",
       type: "success",
     });
-    navigate("/transactions-history")
+    navigate("/transactions-history");
   };
 
-  const handleUndoTransaction = (tx: Transaction) =>{
-    dispatch({ type: "REMOVE", payload: tx.id })
-    showAlert({
-      message: "Operation was deleted successfully",
-      type: "success",
-    });
-  }
+  const handleUndoTransaction = (transaction: Transaction) => {
+    setTransactionToDelete(transaction);
+    setIsConfirmationOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (transactionToDelete) {
+      dispatch({ type: "REMOVE", payload: transactionToDelete.id });
+      showAlert({
+        message: "Operation was deleted successfully",
+        type: "success",
+      });
+      setTransactionToDelete(null);
+    }
+    setIsConfirmationOpen(false);
+  };
 
   return (
     <div className="px-4 sm:p-6">
@@ -59,9 +76,13 @@ export const TransactionFormEntry = () => {
 
       {selected && (
         <div className="mt-6">
-          {selected === "transfer" && <TransferForm setSelected={setSelected} />}
+          {selected === "transfer" && (
+            <TransferForm setSelected={setSelected} />
+          )}
           {selected === "bizum" && <BizumForm setSelected={setSelected} />}
-          {selected === "withdrawal" && <WithdrawalForm setSelected={setSelected} />}
+          {selected === "withdrawal" && (
+            <WithdrawalForm setSelected={setSelected} />
+          )}
           {selected === "undo" && (
             <HistoryToManage
               title="Select operation to UNDO"
@@ -88,6 +109,16 @@ export const TransactionFormEntry = () => {
           onSubmit={handleSubmit}
         />
       )}
+      <ModalConfirm
+        isOpen={isConfirmationOpen}
+        onClose={() => {
+          setIsConfirmationOpen(false);
+          setTransactionToDelete(null);
+        }}
+        onConfirm={handleConfirmDelete}
+        title="Confirm ndo Action"
+        description="Are you sure you want to delete this transaction?"
+      />
     </div>
   );
 };

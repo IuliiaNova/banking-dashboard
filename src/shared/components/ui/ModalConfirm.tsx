@@ -52,7 +52,7 @@ export const ModalConfirm = ({
           </button>
           <button
             onClick={onConfirm}
-            className="px-4 py-2 text-sm font-semibold bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none"
+            className="px-4 py-2 text-sm font-semibold bg-rose-base text-white rounded hover:bg-rose-hover active:bg-rose-active focus:outline-none"
           >
             Confirm
           </button>

@@ -111,7 +111,7 @@ export const TransactionModalForm = ({
         <div className="flex justify-end">
           <button
             type="submit"
-            className="px-4 py-2 text-sm font-medium rounded bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-300"
+            className="w-20 px-4 py-2 text-sm font-medium rounded bg-rose-base text-white hover:bg-rose-hover focus:outline-none focus:ring-2 focus:ring-rose-active dark:focus:ring-rose-active"
           >
             {mode === "update" ? "Update" : "Reuse"}
           </button>
