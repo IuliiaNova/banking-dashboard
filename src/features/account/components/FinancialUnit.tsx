@@ -1,4 +1,5 @@
 import React from "react";
+import { useCurrency } from "../../../shared/store/currency/currency.context";
 
 type FinancialUnitProps = {
   title: string;
@@ -18,6 +19,7 @@ export default function FinancialUnit({
   icon,
 }: FinancialUnitProps) {
   const lastFourDigits = code.slice(-4);
+  const { currency } = useCurrency()
 
   return (
     <div className="w-44 sm:w-80 md:w-[21rem] px-6 bg-white dark:bg-background-dark rounded-2xl shadow-md p-4 flex flex-col gap-3 transition-all duration-300">
@@ -39,7 +41,7 @@ export default function FinancialUnit({
         </div>
       ) : (
         <div className="text-lg font-bold text-blsck dark:text-gray-200">
-          {amount != null ? `${amount.toLocaleString()} €` : "0 €"}
+          {amount != null ? `${amount.toLocaleString()}` : "0"} {currency === 'EUR' ? '€' : '$'}
         </div>
       )}
     </div>

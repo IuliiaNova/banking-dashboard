@@ -3,12 +3,15 @@ import { useTransactions } from "../../transactions/store/transactions.context";
 import { formatDate } from "../../../shared/utils/date";
 import { getAmountStyle } from "../../transactions/utils/amountFormat";
 import { useNavigate } from "react-router-dom";
+import { useCurrency } from "../../../shared/store/currency/currency.context";
+import { convertValue } from "../../../shared/utils/calculate-balance";
 
 export default function TransactionsView() {
   const navigate = useNavigate();
   const {
     state: { transactions },
   } = useTransactions("TransactionsView");
+  const { currency } = useCurrency();
 
   const recentTransactions = [...transactions]
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
@@ -39,7 +42,7 @@ export default function TransactionsView() {
                   transaction.type
                 )}`}
               >
-                {transaction.amount.toFixed(2)}€
+                {convertValue(currency, transaction.amount).toFixed(2)}{currency === 'EUR' ? '€' : '$'}
               </span>
             </div>
           ))}

@@ -3,6 +3,8 @@ import { useTransactions } from "../../../features/transactions/store/transactio
 import TransactionFilters from "./TransactionFilters";
 import { File, SlidersHorizontal } from "lucide-react";
 import CSVmanage from "./csv/CSVmanage";
+import { convertValue } from "../../../shared/utils/calculate-balance";
+import { useCurrency } from "../../../shared/store/currency/currency.context";
 
 const PAGE_SIZE = 20;
 
@@ -10,6 +12,7 @@ const History = () => {
   const {
     state: { transactions },
   } = useTransactions("History");
+  const { currency } = useCurrency();
 
   const [filter, setFilter] = useState({
     from: "",
@@ -109,7 +112,8 @@ const History = () => {
                     : "text-red-600 dark:text-red-400"
                 }`}
               >
-                {transaction.amount.toFixed(2)}€
+                {convertValue(currency, transaction.amount).toFixed(2)}
+                {currency === "EUR" ? "€" : "$"}
               </div>
             </div>
           ))

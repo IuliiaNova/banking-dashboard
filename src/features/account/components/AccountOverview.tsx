@@ -1,29 +1,20 @@
 import { useState } from "react";
 import { useTransactions } from "../../../features/transactions/store/transactions.context";
-import { calculateBalance } from "../../../shared/utils/calculate-balance";
+import { calculateBalance, convertValue } from "../../../shared/utils/calculate-balance";
+import { useCurrency } from "../../../shared/store/currency/currency.context";
 
 export const AccountOverview = () => {
   const {
     state: { transactions, loading },
   } = useTransactions("AccountOverview");
-
-  const [currency, setCurrency] = useState<"EUR" | "USD">("EUR");
+  const { currency, toggleCurrency } = useCurrency()
   const [showCurrentMonth, setShowCurrentMonth] = useState(true);
-
-  const exchangeRate = 1.1;
 
   const formatCurrency = (value: number) =>
     new Intl.NumberFormat("de-DE", {
       style: "currency",
       currency,
     }).format(value);
-
-  const convertValue = (value: number) => {
-    if (currency === "USD") {
-      return value * exchangeRate;
-    }
-    return value;
-  };
 
   const now = new Date();
   const currentYear = now.getFullYear();
@@ -60,7 +51,7 @@ export const AccountOverview = () => {
     loading === "pending" ? (
       <SkeletonBlock className="h-6 w-24 mx-auto" />
     ) : (
-      formatCurrency(convertValue(value))
+      formatCurrency(convertValue(currency, value))
     );
 
   return (
@@ -81,7 +72,7 @@ export const AccountOverview = () => {
           </h2>
         )}
         <button
-          onClick={() => setCurrency(currency === "EUR" ? "USD" : "EUR")}
+          onClick={toggleCurrency}
           className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border ${
             loading === "pending"
               ? "border-transparent bg-gray-200 dark:bg-gray-700 cursor-default"

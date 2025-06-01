@@ -2,7 +2,12 @@ import React, { useMemo, useState } from "react";
 import { useTransactions } from "../../../features/transactions/store/transactions.context";
 import TransactionFilters from "./TransactionFilters";
 import { ArrowLeft, SlidersHorizontal } from "lucide-react";
-import type { SelectOperationType, Transaction } from "../../../entities/models/transactions";
+import type {
+  SelectOperationType,
+  Transaction,
+} from "../../../entities/models/transactions";
+import { useCurrency } from "../../../shared/store/currency/currency.context";
+import { convertValue } from "../../../shared/utils/calculate-balance";
 
 const PAGE_SIZE = 20;
 
@@ -18,6 +23,7 @@ const HistoryToManage = ({ title, setSelected, onClick }: Props) => {
   const {
     state: { transactions },
   } = useTransactions("History");
+  const { currency } = useCurrency();
 
   const [filter, setFilter] = useState({
     from: "",
@@ -120,7 +126,8 @@ const HistoryToManage = ({ title, setSelected, onClick }: Props) => {
                     : "text-red-600 dark:text-red-400"
                 }`}
               >
-                {transaction.amount.toFixed(2)}€
+                {convertValue(currency, transaction.amount).toFixed(2)}
+                {currency === "EUR" ? "€" : "$"}
               </div>
             </div>
           ))
