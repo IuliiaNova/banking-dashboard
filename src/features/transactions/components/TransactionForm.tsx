@@ -173,7 +173,12 @@ export const TransactionForm = ({ setSelected }: Props) => {
               errors.date ? "border-red-500" : "border-gray-300"
             )}
             min={new Date().toISOString().split("T")[0]}
+            max={new Date().toISOString().split("T")[0]}
           />
+          <p className="text-xs text-gray-500 mt-1">
+            By default, the date is set to today. Due to the type of operation,
+            the date cannot be changed
+          </p>
         </div>
       </div>
 
@@ -187,7 +192,7 @@ export const TransactionForm = ({ setSelected }: Props) => {
         </button>
         <button
           type="button"
-          className="bg-gray-600 hover:bg-rose-hover text-white font-medium py-2 px-4 rounded-md transition"
+          className="bg-gray-500 hover:bg-rose-hover text-white font-medium py-2 px-4 rounded-md transition"
           onClick={() => setSelected?.(null)}
         >
           Go back
