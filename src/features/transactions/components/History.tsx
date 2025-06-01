@@ -3,8 +3,7 @@ import { useTransactions } from "../../../features/transactions/store/transactio
 import TransactionFilters from "./TransactionFilters";
 import { File, SlidersHorizontal } from "lucide-react";
 import CSVmanage from "./csv/CSVmanage";
-import { TransferForm } from "./TransferForm";
-import type { Transaction } from "../../../entities/models/transactions";
+//import type { Transaction } from "../../../entities/models/transactions";
 
 const PAGE_SIZE = 20;
 
@@ -23,10 +22,8 @@ const History = () => {
 
   const [showFilters, setShowFilters] = useState(false);
   const [showCSV, setShowCSV] = useState(false);
-  const [updateMode, setUpdateMode] = useState(false);
-  const [selectedTransfer, setSelectedTransfer] = useState<null | Transaction>(null);
-
-
+  //const [updateMode, setUpdateMode] = useState(false);
+  //const [selectedTransfer, setSelectedTransfer] = useState<null | Transaction>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -57,6 +54,7 @@ const History = () => {
   );
 
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+  console.log("paginated",paginated);
 
   return (
     <section className="w-full max-w-3xl mx-auto px-4 py-4">
@@ -97,9 +95,6 @@ const History = () => {
             <div
               key={transaction.id}
               className="p-4 border border-gray-300 dark:border-gray-100 rounded shadow-sm flex justify-between items-center bg-white dark:bg-background-dark hover:bg-gray-100 dark:hover:bg-gray-300 cursor-pointer"
-              onClick={() => {
-                setSelectedTransfer(transaction);
-                setUpdateMode(true)}}
             >
               <div>
                 <p className="font-bold text-sm text-gray-800 dark:text-gray-100">
@@ -118,7 +113,6 @@ const History = () => {
                     : "text-red-600 dark:text-red-400"
                 }`}
               >
-                {transaction.type === "Withdrawal" ? "- " : "+ "}
                 {transaction.amount.toFixed(2)}€
               </div>
             </div>

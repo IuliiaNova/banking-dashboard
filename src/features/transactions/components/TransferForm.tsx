@@ -59,7 +59,7 @@ export const TransferForm = ({ initial, onSuccess, setSelected }: Props) => {
   const onSubmit = (data: FormValues) => {
     const newTransaction: Transaction = {
       id: initial?.id || uuid(),
-      amount: Math.abs(data.amount),
+      amount: -Math.abs(data.amount),
       description: data.description,
       date: data.date,
       type: "Withdrawal",

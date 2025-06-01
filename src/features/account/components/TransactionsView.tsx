@@ -2,7 +2,6 @@ import { ArrowRight } from "lucide-react";
 import { useTransactions } from "../../transactions/store/transactions.context";
 import { formatDate } from "../../../shared/utils/date";
 import {
-  formatAmount,
   getAmountStyle,
 } from "../../transactions/utils/amountFormat";
 import { useNavigate } from "react-router-dom";
@@ -42,7 +41,7 @@ export default function TransactionsView() {
                   transaction.type
                 )}`}
               >
-                {formatAmount(transaction.amount, transaction.type)}
+                {transaction.amount }{'€'}
               </span>
             </div>
           ))}
