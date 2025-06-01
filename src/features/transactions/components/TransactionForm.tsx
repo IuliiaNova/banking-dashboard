@@ -12,6 +12,7 @@ import { useAlert } from "../../../shared/store/alert/alert.context";
 import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
+  type: z.enum(["Deposit", "Withdrawal"]),
   amount: z.number().min(0.01, "Amount must be greater than zero"),
   description: z.string().min(1, "Description is required"),
   date: z
@@ -27,8 +28,8 @@ interface Props {
   >;
 }
 
-export const WithdrawalForm = ({ setSelected }: Props) => {
-  const { state, dispatch } = useTransactions("WithdrawalForm");
+export const TransactionForm = ({ setSelected }: Props) => {
+  const { state, dispatch } = useTransactions("TransactionForm");
   const { showAlert } = useAlert();
   const navigate = useNavigate();
 
@@ -41,19 +42,22 @@ export const WithdrawalForm = ({ setSelected }: Props) => {
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
+      type: "Withdrawal",
       amount: 0,
       description: "",
       date: new Date().toISOString().split("T")[0],
     },
   });
 
+  const type = watch("type");
   const amount = watch("amount");
 
-  const currentBalance = state.transactions
-    .filter((tx) => tx.type === "Deposit")
-    .reduce((acc, tx) => acc + tx.amount, 0);
+  const currentBalance = state.transactions.reduce(
+    (acc, tx) => acc + tx.amount,
+    0
+  );
 
-  const isOverdraft = amount > currentBalance;
+  const isOverdraft = type === "Withdrawal" && amount > currentBalance;
 
   const updateLocalStorage = (transactions: Transaction[]) => {
     localStorage.setItem("transactionsData", JSON.stringify(transactions));
@@ -63,9 +67,12 @@ export const WithdrawalForm = ({ setSelected }: Props) => {
     const newTransaction: Transaction = {
       id: uuid(),
       date: data.date,
-      amount: -Math.abs(data.amount),
+      amount:
+        data.type === "Withdrawal"
+          ? -Math.abs(data.amount)
+          : Math.abs(data.amount),
       description: data.description,
-      type: "Withdrawal",
+      type: data.type,
     };
 
     let updatedTransactions: Transaction[] = [];
@@ -90,10 +97,24 @@ export const WithdrawalForm = ({ setSelected }: Props) => {
       className="bg-gray-50 dark:bg-background-extra-dark rounded-xl p-4 sm:p-6 shadow space-y-6 max-w-lg mx-auto relative z-10"
     >
       <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-        New Withdrawal
+        {type === "Withdrawal" ? "New Withdrawal" : "New Deposit"}
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+        <div>
+          <label className="text-sm text-gray-700 dark:text-gray-300 block mb-1">
+            Operation type
+          </label>
+          <select
+            {...register("type")}
+            className="w-full rounded-md px-3 py-2 border bg-white dark:bg-background-dark text-gray-900 dark:text-white border-gray-300"
+            id="type"
+          >
+            <option value="Deposit">Deposit money</option>
+            <option value="Withdrawal">Withdraw money</option>
+          </select>
+        </div>
+
         <div>
           <label className="text-sm text-gray-700 dark:text-gray-300 block mb-1">
             Amount (€)
@@ -162,13 +183,12 @@ export const WithdrawalForm = ({ setSelected }: Props) => {
           disabled={isOverdraft}
           className="bg-rose-base hover:bg-rose-hover text-white font-medium py-2 px-4 rounded-md transition"
         >
-          Withdraw Money
+          {type === "Withdrawal" ? "Withdraw Money" : "Deposit Money"}
         </button>
         <button
           type="button"
-          disabled={isOverdraft}
           className="bg-gray-600 hover:bg-rose-hover text-white font-medium py-2 px-4 rounded-md transition"
-          onClick={() => setSelected!(null)}
+          onClick={() => setSelected?.(null)}
         >
           Go back
         </button>

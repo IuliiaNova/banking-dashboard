@@ -6,7 +6,6 @@ import type {
 } from "../../../entities/models/transactions";
 import { SelectTransactionMethod } from "./SelectTransactionType";
 import { TransferForm } from "./TransferForm";
-import { WithdrawalForm } from "./WithdrawalForm";
 import { BizumForm } from "./BizumForm";
 import HistoryToManage from "./HistoryToManage";
 import { useTransactions } from "../store/transactions.context";
@@ -14,6 +13,7 @@ import { TransactionModalForm } from "../components/TransactionModalForm";
 import { useAlert } from "../../../shared/store/alert/alert.context";
 import { useNavigate } from "react-router-dom";
 import { ModalConfirm } from "../../../shared/components/ui/ModalConfirm";
+import { TransactionForm } from "./TransactionForm";
 
 const TransactionFormEntry = () => {
   const { showAlert } = useAlert();
@@ -71,7 +71,7 @@ const TransactionFormEntry = () => {
   };
 
   return (
-    <div className="px-4 sm:p-6">
+    <div className="px-4 sm:px-6">
       {!selected && <SelectTransactionMethod onSelect={handleSelect} />}
 
       {selected && (
@@ -81,7 +81,7 @@ const TransactionFormEntry = () => {
           )}
           {selected === "bizum" && <BizumForm setSelected={setSelected} />}
           {selected === "withdrawal" && (
-            <WithdrawalForm setSelected={setSelected} />
+            <TransactionForm setSelected={setSelected} />
           )}
           {selected === "undo" && (
             <HistoryToManage

@@ -10,7 +10,7 @@ interface Props {
 const OPTIONS: { key: TransactionMethod; label: string }[] = [
   { key: "transfer", label: "Make a Transaction" },
   { key: "bizum", label: "Send via Bizum" },
-  { key: "withdrawal", label: "Withdrawal Money" },
+  { key: "withdrawal", label: "Money operation" },
 ];
 
 const OPTIONS_EXISTS: { key: "undo" | "reuse" | "update"; label: string }[] = [
