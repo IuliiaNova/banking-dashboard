@@ -36,7 +36,8 @@ describe("<AccountOverview />", () => {
     render(<AccountOverview />);
 
     expect(screen.getByText("Account Overview")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /euro/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /switch currency/i })
+  ).toBeInTheDocument();
   });
 
   it("toggles currency between EUR and USD", () => {
@@ -45,13 +46,14 @@ describe("<AccountOverview />", () => {
     });
 
     render(<AccountOverview />);
-    const toggleBtn = screen.getByRole("button", { name: /euro/i });
+    const toggleBtn = screen.getByRole("button", { name: /switch currency/i });
 
     fireEvent.click(toggleBtn);
     expect(screen.getByRole("button", { name: /dollar/i })).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: /dollar/i }));
-    expect(screen.getByRole("button", { name: /euro/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /switch currency/i })
+  ).toBeInTheDocument();
   });
 
   it("shows current month by default, and toggles to total view", () => {
