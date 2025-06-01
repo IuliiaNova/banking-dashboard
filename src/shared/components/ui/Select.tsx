@@ -69,7 +69,7 @@ const Select = ({
         aria-expanded={open}
         disabled={disabled}
         className={`
-          w-full border rounded-lg bg-gray-50 dark:bg-background-dark py-2 px-3 text-left text-sm dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 flex justify-between items-center
+          w-full border border-rose-base rounded-lg bg-white dark:bg-background-dark py-2 px-3 text-left text-sm dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-active flex justify-between items-center
           ${disabled ? "opacity-50 cursor-not-allowed" : ""}
         `}
         onClick={() => setOpen((v) => !v)}

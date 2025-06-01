@@ -34,7 +34,7 @@ const TransactionFilters = ({ filter, withType = true, onChange }: Props) => {
           value={filter.from}
           onChange={onChange}
           placeholder="From"
-          className="border rounded-lg px-2 py-2 text-sm w-full sm:w-36 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-background-dark dark:text-white"
+          className="border border-rose-base rounded-lg px-2 py-2 text-sm w-full sm:w-36 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white dark:bg-background-dark dark:text-white"
         />
         <input
           type="date"
@@ -42,7 +42,7 @@ const TransactionFilters = ({ filter, withType = true, onChange }: Props) => {
           value={filter.to}
           onChange={onChange}
           placeholder="To"
-          className="border rounded-lg px-2 py-2 text-sm w-full sm:w-36 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-background-dark dark:text-white"
+          className="border border-rose-base rounded-lg px-2 py-2 text-sm w-full sm:w-36 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white dark:bg-background-dark dark:text-white"
         />
       </div>
       <input
@@ -51,7 +51,7 @@ const TransactionFilters = ({ filter, withType = true, onChange }: Props) => {
         value={filter.description}
         onChange={onChange}
         placeholder="Search description"
-        className="border rounded-lg px-2 py-2 text-sm w-full sm:w-48 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-background-dark dark:text-white"
+        className="border border-rose-base rounded-lg px-2 py-2 text-sm w-full sm:w-48 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white dark:bg-background-dark dark:text-white"
       />
       {withType && (
         <Select

@@ -10,6 +10,12 @@ import type {
 } from "../../../entities/models/transactions";
 import { useAlert } from "../../../shared/store/alert/alert.context";
 import { useNavigate } from "react-router-dom";
+import Select, { type SelectOption } from "../../../shared/components/ui/Select";
+
+const OPTIONS: Array<SelectOption> = [
+  { value: "Deposit", label: "Deposit" },
+  { value: "Withdrawal", label: "Withdrawal" },
+];
 
 const schema = z.object({
   type: z.enum(["Deposit", "Withdrawal"]),
@@ -38,6 +44,7 @@ export const TransactionForm = ({ setSelected }: Props) => {
     handleSubmit,
     watch,
     reset,
+    setValue, // <-- importante
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -91,6 +98,11 @@ export const TransactionForm = ({ setSelected }: Props) => {
     navigate("/transactions-history");
   };
 
+  // Aquí sincronizas el Select custom con RHF
+  const handleCustomChange = (optionValue: string) => {
+    setValue("type", optionValue as "Deposit" | "Withdrawal");
+  };
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -105,14 +117,12 @@ export const TransactionForm = ({ setSelected }: Props) => {
           <label className="text-sm text-gray-700 dark:text-gray-300 block mb-1">
             Operation type
           </label>
-          <select
-            {...register("type")}
-            className="w-full rounded-md px-3 py-2 border bg-white dark:bg-background-dark text-gray-900 dark:text-white border-gray-300"
-            id="type"
-          >
-            <option value="Deposit">Deposit money</option>
-            <option value="Withdrawal">Withdraw money</option>
-          </select>
+          <Select
+            name="type"
+            value={type}
+            options={OPTIONS}
+            onChange={handleCustomChange}
+          />
         </div>
 
         <div>
