@@ -61,7 +61,6 @@ src/
 ├── entities/           # Domain entities and models
 ├── features/           # Feature-based modules
 │   ├── account/
-│   ├── currency/
 │   ├── login/
 │   └── transactions/
 ├── pages/             # Page components
@@ -85,3 +84,5 @@ npm run test -- --watch
 ### Build
 
 ![Build Status](public/assets/build.png)
+
+## User Journey
