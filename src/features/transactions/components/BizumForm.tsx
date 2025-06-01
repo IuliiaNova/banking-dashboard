@@ -9,6 +9,7 @@ import type {
   Transaction,
 } from "../../../entities/models/transactions";
 import { useAlert } from "../../../shared/store/alert.context";
+import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
   amount: z.number().min(0.01, "Amount must be greater than zero"),
@@ -33,6 +34,7 @@ interface Props {
 export const BizumForm = ({ onSuccess, setSelected }: Props) => {
   const { state, dispatch } = useTransactions("BizumForm");
   const { showAlert } = useAlert();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -84,6 +86,7 @@ export const BizumForm = ({ onSuccess, setSelected }: Props) => {
     reset();
     onSuccess?.();
     setSelected?.(null);
+    navigate("/transactions-history")
   };
 
   return (

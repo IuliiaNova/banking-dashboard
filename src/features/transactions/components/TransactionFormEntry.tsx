@@ -8,8 +8,13 @@ import { BizumForm } from "./BizumForm";
 import HistoryToManage from "./HistoryToManage";
 import { useTransactions } from "../store/transactions.context";
 import { TransactionModalForm } from "../components/TransactionModalForm";
+import { useAlert } from "../../../shared/store/alert.context";
+import { useNavigate } from "react-router-dom";
 
 export const TransactionFormEntry = () => {
+  const { showAlert } = useAlert();
+  const navigate = useNavigate();
+
   const { dispatch } = useTransactions("TransactionFormEntry");
   const [selected, setSelected] = useState<SelectOperationType | null>(null);
   const [modalMode, setModalMode] = useState<"update" | "reuse" | null>(null);
@@ -32,10 +37,21 @@ export const TransactionFormEntry = () => {
       type: modalMode === "update" ? "EDIT" : "ADD",
       payload: updated,
     });
+
+    showAlert({
+      message: "Operation was completed successfully",
+      type: "success",
+    });
+    navigate("/transactions-history")
   };
 
-  const handleUndoTransaction = (tx: Transaction) =>
-    dispatch({ type: "REMOVE", payload: tx.id });
+  const handleUndoTransaction = (tx: Transaction) =>{
+    dispatch({ type: "REMOVE", payload: tx.id })
+    showAlert({
+      message: "Operation was deleted successfully",
+      type: "success",
+    });
+  }
 
   return (
     <div className="px-4 sm:p-6">

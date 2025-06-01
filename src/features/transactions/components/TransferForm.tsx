@@ -9,6 +9,7 @@ import type {
   Transaction,
 } from "../../../entities/models/transactions";
 import { useAlert } from "../../../shared/store/alert.context";
+import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
   amount: z.number().min(0.01, "Amount must be greater than zero"),
@@ -26,15 +27,15 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 interface Props {
-  onSuccess?: () => void;
   setSelected?: React.Dispatch<
     React.SetStateAction<SelectOperationType | null>
   >;
 }
 
-export const TransferForm = ({ onSuccess, setSelected }: Props) => {
+export const TransferForm = ({ setSelected }: Props) => {
   const { state, dispatch } = useTransactions("TransferForm");
   const { showAlert } = useAlert();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -76,7 +77,8 @@ export const TransferForm = ({ onSuccess, setSelected }: Props) => {
     });
 
     reset();
-    onSuccess?.();
+    setSelected?.(null);
+    navigate("/transactions-history")
   };
 
   return (
