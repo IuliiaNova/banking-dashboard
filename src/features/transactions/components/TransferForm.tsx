@@ -8,6 +8,7 @@ import type {
   SelectOperationType,
   Transaction,
 } from "../../../entities/models/transactions";
+import { useAlert } from "../../../shared/store/alert.context";
 
 const schema = z.object({
   amount: z.number().min(0.01, "Amount must be greater than zero"),
@@ -25,30 +26,29 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 interface Props {
-  initial?: Transaction;
   onSuccess?: () => void;
   setSelected?: React.Dispatch<
     React.SetStateAction<SelectOperationType | null>
   >;
 }
 
-export const TransferForm = ({ initial, onSuccess, setSelected }: Props) => {
+export const TransferForm = ({ onSuccess, setSelected }: Props) => {
   const { state, dispatch } = useTransactions("TransferForm");
+  const { showAlert } = useAlert();
 
   const {
     register,
     handleSubmit,
-    setValue,
     watch,
     reset,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
-      amount: Math.abs(initial?.amount || 0),
-      description: initial?.description || "",
-      date: initial?.date || new Date().toISOString().split("T")[0],
-      destinationAccount: "", // default blank
+      amount: 0,
+      description: "",
+      date: new Date().toISOString().split("T")[0],
+      destinationAccount: "", 
     },
   });
 
@@ -58,27 +58,26 @@ export const TransferForm = ({ initial, onSuccess, setSelected }: Props) => {
     .filter((tx) => tx.type === "Deposit")
     .reduce((acc, tx) => acc + tx.amount, 0);
 
-  const isOverdraft = amount > currentBalance && !initial;
+  const isOverdraft = amount > currentBalance;
 
   const onSubmit = (data: FormValues) => {
     const newTransaction: Transaction = {
-      id: initial?.id || uuid(),
+      id: uuid(),
       date: data.date,
       amount: -Math.abs(data.amount),
       description: data.description,
       type: "Withdrawal",
     };
 
-    if (initial) {
-      dispatch({ type: "EDIT", payload: newTransaction });
-    } else {
-      dispatch({ type: "ADD", payload: newTransaction });
-    }
+    dispatch({ type: "ADD", payload: newTransaction });
+    showAlert({
+      message: "Operation was completed successfully",
+      type: "success",
+    });
 
     reset();
     onSuccess?.();
   };
-
 
   return (
     <form
@@ -86,7 +85,7 @@ export const TransferForm = ({ initial, onSuccess, setSelected }: Props) => {
       className="bg-gray-50 dark:bg-background-extra-dark rounded-xl p-4 sm:p-6 shadow space-y-6 max-w-lg mx-auto relative z-10"
     >
       <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-        {initial ? "Edit Transfer" : "New Transfer"}
+        New Transfer
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
@@ -176,7 +175,7 @@ export const TransferForm = ({ initial, onSuccess, setSelected }: Props) => {
           disabled={isOverdraft}
           className="bg-[var(--color-rose-base)] hover:bg-[var(--color-rose-hover)] text-white font-medium py-2 px-4 rounded-md transition"
         >
-          {initial ? "Update" : "Add"} Transfer
+          Make a Transfer
         </button>
         <button
           type="button"

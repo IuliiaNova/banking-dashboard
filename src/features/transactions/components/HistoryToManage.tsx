@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import { useTransactions } from "../../../features/transactions/store/transactions.context";
 import TransactionFilters from "./TransactionFilters";
 import { ArrowLeft, SlidersHorizontal } from "lucide-react";
-import type { SelectOperationType } from "../../../entities/models/transactions";
+import type { SelectOperationType, Transaction } from "../../../entities/models/transactions";
 
 const PAGE_SIZE = 20;
 
@@ -11,7 +11,7 @@ interface Props {
   setSelected?: React.Dispatch<
     React.SetStateAction<SelectOperationType | null>
   >;
-  onClick?: (id: string) => void;
+  onClick?: (updateTransaction: Transaction) => void;
 }
 
 const HistoryToManage = ({ title, setSelected, onClick }: Props) => {
@@ -28,8 +28,6 @@ const HistoryToManage = ({ title, setSelected, onClick }: Props) => {
   });
 
   const [showFilters, setShowFilters] = useState(false);
-  //const [updateMode, setUpdateMode] = useState(false);
-  //const [selectedTransfer, setSelectedTransfer] = useState<null | Transaction>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -103,7 +101,7 @@ const HistoryToManage = ({ title, setSelected, onClick }: Props) => {
             <div
               key={transaction.id}
               className="p-4 border border-gray-300 dark:border-gray-100 rounded shadow-sm flex justify-between items-center bg-white dark:bg-background-dark hover:bg-gray-100 dark:hover:bg-gray-300 cursor-pointer"
-              onClick={() => onClick?.(transaction.id)}
+              onClick={() => onClick?.(transaction)}
             >
               <div>
                 <p className="font-bold text-sm text-gray-800 dark:text-gray-100">

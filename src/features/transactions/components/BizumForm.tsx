@@ -4,7 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransactions } from "../store/transactions.context";
 import { v4 as uuid } from "uuid";
 import clsx from "clsx";
-import type { SelectOperationType, Transaction } from "../../../entities/models/transactions";
+import type {
+  SelectOperationType,
+  Transaction,
+} from "../../../entities/models/transactions";
+import { useAlert } from "../../../shared/store/alert.context";
 
 const schema = z.object({
   amount: z.number().min(0.01, "Amount must be greater than zero"),
@@ -20,13 +24,15 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 interface Props {
-  initial?: Transaction;
   onSuccess?: () => void;
-  setSelected?: React.Dispatch<React.SetStateAction<SelectOperationType | null>>;
+  setSelected?: React.Dispatch<
+    React.SetStateAction<SelectOperationType | null>
+  >;
 }
 
-export const BizumForm = ({ initial, onSuccess, setSelected }: Props) => {
+export const BizumForm = ({ onSuccess, setSelected }: Props) => {
   const { state, dispatch } = useTransactions("BizumForm");
+  const { showAlert } = useAlert();
 
   const {
     register,
@@ -37,20 +43,20 @@ export const BizumForm = ({ initial, onSuccess, setSelected }: Props) => {
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
-      amount: Math.abs(initial?.amount || 0),
-      description: initial?.description?.split(" (to ")[0] || "",
-      date: initial?.date || new Date().toISOString().split("T")[0],
-      phone: initial?.description?.match(/\(to (.*)\)/)?.[1] || "",
+      amount: 0,
+      description: "",
+      date: new Date().toISOString().split("T")[0],
+      phone: "",
     },
   });
 
   const amount = watch("amount");
 
   const currentBalance = state.transactions
-    .filter(tx => tx.type === "Deposit")
+    .filter((tx) => tx.type === "Deposit")
     .reduce((acc, tx) => acc + tx.amount, 0);
 
-  const isOverdraft = amount > currentBalance && !initial;
+  const isOverdraft = amount > currentBalance;
 
   const updateLocalStorage = (transactions: Transaction[]) => {
     localStorage.setItem("transactionsData", JSON.stringify(transactions));
@@ -58,7 +64,7 @@ export const BizumForm = ({ initial, onSuccess, setSelected }: Props) => {
 
   const onSubmit = (data: FormValues) => {
     const newTransaction: Transaction = {
-      id: initial?.id || uuid(),
+      id: uuid(),
       date: data.date,
       amount: -Math.abs(data.amount),
       description: `${data.description} (to ${data.phone})`,
@@ -67,15 +73,12 @@ export const BizumForm = ({ initial, onSuccess, setSelected }: Props) => {
 
     let updatedTransactions: Transaction[];
 
-    if (initial) {
-      dispatch({ type: "EDIT", payload: newTransaction });
-      updatedTransactions = state.transactions.map((tx) =>
-        tx.id === initial.id ? newTransaction : tx
-      );
-    } else {
-      dispatch({ type: "ADD", payload: newTransaction });
-      updatedTransactions = [...state.transactions, newTransaction];
-    }
+    dispatch({ type: "ADD", payload: newTransaction });
+    updatedTransactions = [...state.transactions, newTransaction];
+    showAlert({
+      message: "Operation was completed successfully",
+      type: "success",
+    });
 
     updateLocalStorage(updatedTransactions);
     reset();
@@ -89,7 +92,7 @@ export const BizumForm = ({ initial, onSuccess, setSelected }: Props) => {
       className="bg-gray-50 dark:bg-background-extra-dark rounded-xl p-4 sm:p-6 shadow space-y-6 max-w-lg mx-auto relative z-10"
     >
       <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-        {initial ? "Edit Bizum" : "Send Bizum"}
+        Send Bizum
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
@@ -183,7 +186,7 @@ export const BizumForm = ({ initial, onSuccess, setSelected }: Props) => {
           disabled={isOverdraft}
           className="bg-rose-base hover:bg-rose-hover text-white font-medium py-2 px-4 rounded-md transition"
         >
-          {initial ? "Update Bizum" : "Send Bizum"}
+          Send Bizum
         </button>
         <button
           type="button"

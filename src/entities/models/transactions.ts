@@ -2,7 +2,7 @@ export type TransactionType = "Deposit" | "Withdrawal";
 
 export type TransactionMethod = "bizum" | "transfer" | "withdrawal";
 
-export type SelectOperationType = TransactionMethod | "undo" | "reuse"
+export type SelectOperationType = TransactionMethod | "undo" | "reuse" | "update"
 
 export interface TransactionRaw {
   Id?: string;
@@ -19,3 +19,4 @@ export interface Transaction {
   description: string;
   type: TransactionType;
 }
+

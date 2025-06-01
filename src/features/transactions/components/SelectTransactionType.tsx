@@ -13,9 +13,9 @@ const OPTIONS: { key: TransactionMethod; label: string }[] = [
   { key: "withdrawal", label: "Withdrawal Money" },
 ];
 
-const OPTIONS_EXISTS: { key: "undo" | "reuse"; label: string }[] = [
+const OPTIONS_EXISTS: { key: "undo" | "reuse" | "update"; label: string }[] = [
   { key: "undo", label: "Undo Operation" },
-  { key: "undo", label: "Update Operation" },
+  { key: "update", label: "Update Operation" },
   { key: "reuse", label: "Reuse Operation" },
 ];
 
