@@ -7,7 +7,6 @@ import type { AlertType } from "../../../../shared/store/alert.context";
 interface Props {
   transactions: Transaction[];
   showAlert: ({ type, message }: { type: AlertType; message: string }) => void;
-
 }
 
 const CSVDownloader: React.FC<Props> = ({ transactions, showAlert }) => {
