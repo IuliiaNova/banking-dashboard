@@ -49,7 +49,7 @@ export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
       />
       <div
         ref={dialogRef}
-        className="relative z-10 w-full max-w-md p-6 rounded-xl shadow-lg bg-white dark:bg-bd-background-dark"
+        className="relative z-10 w-full max-w-md p-6 rounded-xl shadow-lg bg-white dark:bg-bd-background-dark mx-4"
       >
         <h2
           id="modal-title"
