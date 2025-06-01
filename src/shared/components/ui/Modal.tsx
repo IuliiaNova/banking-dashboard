@@ -37,7 +37,7 @@ export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 dark:bg-black/60"
       aria-modal="true"
       role="dialog"
       aria-labelledby="modal-title"
@@ -49,7 +49,7 @@ export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
       />
       <div
         ref={dialogRef}
-        className="relative z-10 w-full max-w-md p-6 rounded-xl shadow-lg bg-white dark:bg-bd-background-dark mx-4"
+        className="relative z-10 w-full max-w-md p-6 rounded-xl shadow-lg bg-white dark:bg-background-dark mx-4 transition-colors"
       >
         <h2
           id="modal-title"
@@ -57,11 +57,13 @@ export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
         >
           {title}
         </h2>
-        <div className="mt-4 text-gray-800 dark:text-gray-200">{children}</div>
+        <div className="mt-4 text-gray-800 dark:text-gray-200">
+          {children}
+        </div>
         <div className="mt-6 flex justify-end gap-2">
           <button
             onClick={onClose}
-            className="w-20 px-4 py-2 text-sm bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded hover:bg-gray-300 dark:hover:bg-gray-600"
+            className="w-20 px-4 py-2 text-sm bg-gray-200 dark:border dark:border-rose-base dark:bg-gray-600 text-gray-800 dark:text-white rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
           >
             Cancel
           </button>
@@ -69,4 +71,5 @@ export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
       </div>
     </div>
   );
+  
 };

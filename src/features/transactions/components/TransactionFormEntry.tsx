@@ -116,7 +116,7 @@ const TransactionFormEntry = () => {
           setTransactionToDelete(null);
         }}
         onConfirm={handleConfirmDelete}
-        title="Confirm ndo Action"
+        title="Confirm Undo Action"
         description="Are you sure you want to delete this transaction?"
       />
     </div>

@@ -71,7 +71,7 @@ const History = () => {
             {showFilters ? (
               <SlidersHorizontal color="#ef1660" />
             ) : (
-              <SlidersHorizontal color="#71717A" />
+              <SlidersHorizontal color="#A3A3A3" />
             )}
           </button>
 
@@ -79,7 +79,7 @@ const History = () => {
             onClick={() => setShowCSV(!showCSV)}
             className="text-sm text-rose-base hover:text-color-rose-hover cursor-pointer"
           >
-            {showCSV ? <File color="#ef1660" /> : <File color="#71717A" />}
+            {showCSV ? <File color="#ef1660" /> : <File color="#A3A3A3" />}
           </button>
         </div>
       </div>

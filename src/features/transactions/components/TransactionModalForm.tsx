@@ -71,7 +71,7 @@ export const TransactionModalForm = ({
             onChange={handleChange}
             required
             min={form.date ? form.date : new Date().toISOString().split("T")[0]}
-            className="w-full mt-1 p-2 border rounded bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+            className="w-full mt-1 p-2 border rounded bg-white dark:bg-zinc-700 dark:border-gray-600 dark:text-white"
           />
         </div>
         <div>
@@ -88,7 +88,7 @@ export const TransactionModalForm = ({
             value={form.amount}
             onChange={handleChange}
             required
-            className="w-full mt-1 p-2 border rounded bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+            className="w-full mt-1 p-2 border rounded bg-white dark:bg-zinc-700 dark:border-gray-600 dark:text-white"
           />
         </div>
         <div>
@@ -105,7 +105,7 @@ export const TransactionModalForm = ({
             value={form.description}
             onChange={handleChange}
             required
-            className="w-full mt-1 p-2 border rounded bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+            className="w-full mt-1 p-2 border rounded bg-white dark:bg-zinc-700 dark:border-gray-600 dark:text-white"
           />
         </div>
         <div className="flex justify-end">
