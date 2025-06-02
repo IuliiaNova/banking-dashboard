@@ -142,7 +142,7 @@ Filter Button (1 marked in the screenshot) Clicking this button opens the availa
 - Operation type: Filter by the type of transaction.
 - Description: Filter by description keyword.
 
-![Build Status](public/assets/Filter.png)
+![Build Status](public/assets/Filtros.png)
 
 b. <ins>Upload/Download CSV of Transactions</ins>
 
