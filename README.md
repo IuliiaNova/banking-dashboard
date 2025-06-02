@@ -1,16 +1,21 @@
-# Banking Dashboard
+# 🏦 Banking Dashboard
 
 A modern React-based banking dashboard application built with Vite, TypeScript, and Tailwind CSS. This application provides a user interface for viewing account information, transactions, and managing banking activities.
 
-## Features
+## ✨ Features
 
-- Account Overview
-- Transaction History
-- Currency Conversion (EUR/USD)
-- Responsive Design
-- Real-time Data Updates
+- 🏦 **Account Overview**: See your balance, income, and expenses at a glance
+- 📈 **Transaction History**: Browse, filter, and search all your banking transactions
+- 💱 **Currency Selection**: Switch between Euro (€) and Dollar ($) for your dashboard
+- 📤 **CSV Import/Export**: Upload or download your transactions as a CSV file
+- 🔍 **Advanced Filtering**: Filter transactions by date, type, or description
+- 📝 **Transaction Actions**: Transfer, Bizum, deposit, withdraw, undo, update, or repeat any operation
+- 📱 **Responsive Design**: Optimized for mobile and desktop
+- ⚡ **Real-time Updates**: See your changes instantly, no refresh needed
+- 🗂️ **Pagination**: Easy navigation with 20 transactions per page
+- 📊 **Dashboard grafic** with income and expenses overview
 
-## Tech Stack
+## 🛠️ Tech Stack
 
 - React 19
 - TypeScript
@@ -21,12 +26,12 @@ A modern React-based banking dashboard application built with Vite, TypeScript, 
 - Date-fns
 - Lucide React Icons
 
-## Prerequisites
+## 📦 Prerequisites
 
 - Node.js (Latest LTS version recommended)
 - npm
 
-## Getting Started
+## 🚀 Getting Started
 
 1. Clone the repository:
 ```bash
@@ -44,7 +49,7 @@ npm install
 npm run dev
 ```
 
-## Available Scripts
+## 💻  Available Scripts
 
 - `npm run dev` - Start development server
 - `npm run build` - Build for production
@@ -52,7 +57,7 @@ npm run dev
 - `npm run test` - Run tests with coverage
 - `npm run lint` - Run ESLint
 
-## Project Structure
+## 🏗️ Project Structure
 
 ```
 src/
@@ -68,7 +73,7 @@ src/
 └── widgets/           # Reusable widget components
 ```
 
-## Testing
+## 🧪 Testing
 
 The project uses Vitest for testing. Tests are located in the `src/__tests__` directory. Run tests with:
 
@@ -81,20 +86,20 @@ For watch mode:
 npm run test -- --watch
 ```     
 
-### Build
+### 🏗️ Build
 
 ![Build Status](public/assets/build.png)
 
-## User Journey 🚀
+## 🚀 User Journey 
 
-**1. Login**
+**1️⃣ Login**
 
 On the login screen, you can enter any credentials (username and password). There is no actual authentication – any input will work. When you log in, the app saves the username in the browser’s localStorage. This simulates a basic authentication flow.
 
 ![Build Status](public/assets/Login.png)
 
 
-**2. Dashboard**
+**2️⃣ Dashboard**
 
 After logging in, you’ll be redirected to the dashboard. Your saved username will be displayed in a header.
 
@@ -120,7 +125,7 @@ Or, in the ‘Transactions Overview’ section, click ‘Show All’ to view the
 
 ![Build Status](public/assets/Dashboard.png)
 
-**2. Transactions list**
+**3️⃣  Transactions list**
 
 On the Transactions history page, users can:
 
@@ -167,14 +172,14 @@ You can export your transactions as a CSV file at any time.
 ![Build Status](public/assets/CSV.png)
 
 
-**3. Transactions Action**
+**4️⃣ Transactions Action**
 
 The Transactions page lets you manage your financial operations.
 At the bottom (footer), you’ll find an arrow icon (see screenshot) that opens the actions menu.
 
 ***Available Actions 💸***
 
-1. <ins>Make a Transfer:</ins>
+<ins>Make a Transfer:</ins>
 
 - Create a **new transfer** transaction: You can select any date for the transfer start from today,
 - Send Money via **Bizum**: The date is automatically set to today and cannot be changed.
