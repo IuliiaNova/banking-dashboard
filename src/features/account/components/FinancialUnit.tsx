@@ -40,7 +40,7 @@ export default function FinancialUnit({
           <span>{status || "Stateless"}</span>
         </div>
       ) : (
-        <div className="text-lg font-bold text-blsck dark:text-gray-200">
+        <div className="text-lg font-semibold text-blsck dark:text-gray-200">
           {amount != null ? `${amount.toLocaleString()}` : "0"} {currency === 'EUR' ? '€' : '$'}
         </div>
       )}

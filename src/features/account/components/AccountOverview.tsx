@@ -87,7 +87,7 @@ export const AccountOverview = () => {
           aria-label="Available balance"
         >
           <p
-            className={`text-sm font-semibold text-rose-base dark:rose-base mb-2 uppercase tracking-wide ${
+            className={`text-sm font-semibold text-rose-active dark:rose-base mb-2 uppercase tracking-wide ${
               loading === "pending" ? "invisible" : ""
             }`}
           >
@@ -98,7 +98,7 @@ export const AccountOverview = () => {
           ) : (
             <p
               data-testid="balance"
-              className="text-lg font-extrabold text-indigo-900 dark:text-indigo-100"
+              className="text-lg font-extrabold text-indigo-900 dark:text-indigo-200"
             >
               {renderValue(balance)}
             </p>
@@ -146,7 +146,7 @@ export const AccountOverview = () => {
             {loading === "pending" ? (
               <SkeletonBlock className="h-8 w-24 mx-auto" />
             ) : (
-              <p className="text-lg font-bold text-green-900 dark:text-green-100">
+              <p className="text-lg font-semibold text-green-900 dark:text-gray-100">
                 {renderValue(income)}
               </p>
             )}
@@ -169,7 +169,7 @@ export const AccountOverview = () => {
             {loading === "pending" ? (
               <SkeletonBlock className="h-8 w-24 mx-auto" />
             ) : (
-              <p className="text-lg font-bold text-red-900 dark:text-red-100">
+              <p className="text-lg font-semibold text-red-900 dark:text-gray-100">
                 {renderValue(expenses)}
               </p>
             )}
