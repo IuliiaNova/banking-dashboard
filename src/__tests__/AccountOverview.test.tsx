@@ -4,7 +4,6 @@ import { useTransactions } from '../features/transactions/store/transactions.con
 import { useCurrency } from '../shared/store/currency/currency.context';
 import { vi} from 'vitest';
 
-// Mock the hooks
 vi.mock('../features/transactions/store/transactions.context');
 vi.mock('../shared/store/currency/currency.context');
 
