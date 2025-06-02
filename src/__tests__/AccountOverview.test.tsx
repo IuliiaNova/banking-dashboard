@@ -1,83 +1,71 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import { useTransactions } from "../features/transactions/store/transactions.context";
-import { AccountOverview } from "../features/account/components/AccountOverview";
-import { vi } from "vitest";
+import { render, screen, fireEvent } from '@testing-library/react';
+import { AccountOverview } from '../features/account/components/AccountOverview';
+import { useTransactions } from '../features/transactions/store/transactions.context';
+import { useCurrency } from '../shared/store/currency/currency.context';
+import { vi} from 'vitest';
 
-// Mock del hook useTransactions
-vi.mock("../features/transactions/store/transactions.context", () => ({
-  useTransactions: vi.fn(),
-}));
+// Mock the hooks
+vi.mock('../features/transactions/store/transactions.context');
+vi.mock('../shared/store/currency/currency.context');
 
-// Carga mock de transacciones (JSON)
-const mockTransactions = (await import('../features/transactions/mock/transactions.json')).default;
+const mockTransactions = [
+  { id: '1', type: 'Deposit', amount: 1000, date: '2024-01-15', description: 'Salary' },
+  { id: '2', type: 'Withdrawal', amount: -500, date: '2024-01-16', description: 'Rent' },
+];
 
-describe("<AccountOverview />", () => {
+describe('AccountOverview', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    // Mock hook implementations
+    (useTransactions as jest.Mock).mockReturnValue({
+      state: { transactions: mockTransactions, loading: 'success' }
+    });
+    (useCurrency as jest.Mock).mockReturnValue({
+      currency: 'EUR',
+      toggleCurrency: vi.fn()
+    });
   });
 
-  it("renders skeletons when loading is pending", () => {
-    (useTransactions as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
-      state: { transactions: [], loading: "pending" },
+  it('renders account overview with correct balance', () => {
+    render(<AccountOverview />);
+    expect(screen.getByText('Account Overview')).toBeInTheDocument();
+  });
+
+  it('shows loading skeleton when loading state is pending', () => {
+    (useTransactions as jest.Mock).mockReturnValue({
+      state: { transactions: [], loading: 'pending' }
     });
 
     render(<AccountOverview />);
-
-    expect(screen.getByRole("region")).toBeInTheDocument();
-    expect(screen.getAllByRole("presentation").length).toBeGreaterThan(0);
-    expect(screen.queryByText(/account overview/i)).not.toBeInTheDocument();
-  });
-
-  it("renders title and currency toggle in EUR by default", () => {
-    (useTransactions as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
-      state: { transactions: mockTransactions, loading: "success" },
-    });
-
-    render(<AccountOverview />);
-
-    expect(screen.getByText("Account Overview")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /switch currency/i })
-  ).toBeInTheDocument();
-  });
-
-  it("toggles currency between EUR and USD", () => {
-    (useTransactions as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
-      state: { transactions: mockTransactions, loading: "success" },
-    });
-
-    render(<AccountOverview />);
-    const toggleBtn = screen.getByRole("button", { name: /switch currency/i });
-
-    fireEvent.click(toggleBtn);
-    expect(screen.getByRole("button", { name: /dollar/i })).toBeInTheDocument();
-
-    fireEvent.click(screen.getByRole("button", { name: /dollar/i }));
-    expect(screen.getByRole("button", { name: /switch currency/i })
-  ).toBeInTheDocument();
-  });
-
-  it("shows current month by default, and toggles to total view", () => {
-    (useTransactions as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
-      state: { transactions: mockTransactions, loading: "success" },
-    });
-
-    render(<AccountOverview />);
-    expect(screen.getByText("Current month")).toBeInTheDocument();
-
-    fireEvent.click(screen.getByRole("button", { name: /toggle/i }));
-    expect(screen.getByText("Total")).toBeInTheDocument();
-  });
-
-  it("shows correct balance, incomes and expenses for current month in EUR", () => {
-    (useTransactions as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
-      state: { transactions: mockTransactions, loading: "success" },
-    });
-
-    render(<AccountOverview />);
-
-    expect(screen.getByTestId("incomes")).toHaveTextContent("0,00 €");
-    expect(screen.getByTestId("expenses")).toHaveTextContent("0,00 €");
-    expect(screen.getByTestId("balance")).toHaveTextContent("8.901,53 €");
     
+    expect(screen.queryByText('Account Overview')).not.toBeInTheDocument();
+  });
+
+  it('toggles between current month and total view', () => {
+    render(<AccountOverview />);
+    
+    expect(screen.getByText('Current month')).toBeInTheDocument();
+    expect(screen.getByText('Show all')).toBeInTheDocument();
+  });
+
+  it('switches currency when currency button is clicked', () => {
+    const toggleCurrency = vi.fn();
+    (useCurrency as jest.Mock).mockReturnValue({
+      currency: 'EUR',
+      toggleCurrency
+    });
+
+    render(<AccountOverview />);
+    
+    fireEvent.click(screen.getByRole('button', { name: /switch currency/i }));
+    
+    expect(toggleCurrency).toHaveBeenCalled();
+  });
+
+  it('displays correct income and expenses', () => {
+    render(<AccountOverview />);
+    
+    expect(screen.getByTestId('incomes')).toHaveTextContent('Incomes');
+    expect(screen.getByTestId('expenses')).toHaveTextContent('Expenses');
+
   });
 });

@@ -86,6 +86,14 @@ For watch mode:
 npm run test -- --watch
 ```     
 
+**Tests Summary**
+
+![Build Status](public/assets/TestAccount.png)
+
+![Build Status](public/assets/TestsCurrent.png)
+
+![Build Status](public/assets/TestProvider.png)
+
 ### 🏗️ Build
 
 ![Build Status](public/assets/build.png)

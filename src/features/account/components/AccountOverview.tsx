@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { useTransactions } from "../../../features/transactions/store/transactions.context";
-import { calculateBalance, convertValue } from "../../../shared/utils/calculate-balance";
+import {
+  calculateBalance,
+  convertValue,
+} from "../../../shared/utils/calculate-balance";
 import { useCurrency } from "../../../shared/store/currency/currency.context";
 
 export const AccountOverview = () => {
   const {
     state: { transactions, loading },
   } = useTransactions("AccountOverview");
-  const { currency, toggleCurrency } = useCurrency()
+  const { currency, toggleCurrency } = useCurrency();
   const [showCurrentMonth, setShowCurrentMonth] = useState(true);
 
   const formatCurrency = (value: number) =>
@@ -130,6 +133,7 @@ export const AccountOverview = () => {
                 {showCurrentMonth ? "Current month" : "Total"}
               </p>
               <button
+                role="show"
                 type="button"
                 onClick={() => setShowCurrentMonth(!showCurrentMonth)}
                 className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border ${
