@@ -5,6 +5,8 @@ import {
   convertValue,
 } from "../../../shared/utils/calculate-balance";
 import { useCurrency } from "../../../shared/store/currency/currency.context";
+import SkeletonBlock from "./SkeletonBlock";
+import { ToggleButton } from "../../../shared/components/ui/ToggleButton";
 
 export const AccountOverview = () => {
   const {
@@ -43,13 +45,6 @@ export const AccountOverview = () => {
     .filter((t) => t.type === "Withdrawal")
     .reduce((sum, t) => sum + Math.abs(t.amount), 0);
 
-  const SkeletonBlock = ({ className = "" }) => (
-    <div
-      className={`bg-gray-300 dark:bg-gray-700 rounded animate-pulse ${className}`}
-      aria-hidden="true"
-    />
-  );
-
   const renderValue = (value: number) =>
     loading === "pending" ? (
       <SkeletonBlock className="h-6 w-24 mx-auto" />
@@ -74,25 +69,14 @@ export const AccountOverview = () => {
             Account Overview
           </h2>
         )}
-        <button
+        <ToggleButton
+          pressed={currency === "EUR"}
           onClick={toggleCurrency}
-          className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border ${
-            loading === "pending"
-              ? "border-transparent bg-gray-200 dark:bg-gray-700 cursor-default"
-              : "border-gray-200 dark:border-gray-700 bg-gray-20 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-rose-base transition"
-          } text-sm font-medium shadow-sm`}
-          aria-label="Switch currency"
-          type="button"
           disabled={loading === "pending"}
+          aria-label="Switch currency"
         >
-          {loading === "pending" ? (
-            <SkeletonBlock className="h-5 w-16" />
-          ) : currency === "EUR" ? (
-            <span>€ Euro</span>
-          ) : (
-            <span>$ Dollar</span>
-          )}
-        </button>
+          {currency === "EUR" ? <span>€ Euro</span> : <span>$ Dollar</span>}
+        </ToggleButton>
       </header>
 
       <div className="grid grid-cols-1 gap-4">
@@ -132,20 +116,14 @@ export const AccountOverview = () => {
               <p className="text-lg text-gray-800 dark:text-white font-semibold">
                 {showCurrentMonth ? "Current month" : "Total"}
               </p>
-              <button
-                role="show"
-                type="button"
+              <ToggleButton
+                pressed={showCurrentMonth}
                 onClick={() => setShowCurrentMonth(!showCurrentMonth)}
-                className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border ${
-                  loading !== "success"
-                    ? "border-transparent bg-gray-200 dark:bg-gray-700 cursor-default"
-                    : "border-gray-200 dark:border-gray-700 bg-gray-20 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-rose-base transition"
-                } text-sm font-medium shadow-sm`}
-                aria-pressed={showCurrentMonth}
+                disabled={loading !== "success"}
                 aria-label="Toggle between current month and total transactions"
               >
                 {showCurrentMonth ? "Show all" : "Current Month"}
-              </button>
+              </ToggleButton>
             </>
           )}
         </div>

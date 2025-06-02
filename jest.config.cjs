@@ -10,12 +10,12 @@ module.exports = {
     },
     collectCoverage: true,
     collectCoverageFrom: [
-      'src/**/*.{js,jsx,ts,tsx}', // Adjust this to your actual source folder
-      '!src/**/*.test.{js,jsx,ts,tsx}', // exclude test files
-      '!src/**/__tests__/**', // exclude __tests__ folders
-      '!src/**/index.{js,jsx,ts,tsx}', // optional: ignore barrel files
-      '!**/jest.config.js', // exclude config
-      '!**/vite.config.js', // exclude Vite config
-      '!**/babel.config.js', // exclude Babel config
+      'src/**/*.{js,jsx,ts,tsx}', 
+      '!src/**/*.test.{js,jsx,ts,tsx}', 
+      '!src/**/__tests__/**', 
+      '!src/**/index.{js,jsx,ts,tsx}', 
+      '!**/jest.config.js', 
+      '!**/vite.config.js', 
+      '!**/babel.config.js', 
     ],
   }

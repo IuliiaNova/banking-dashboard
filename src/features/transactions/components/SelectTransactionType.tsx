@@ -47,8 +47,7 @@ export const SelectTransactionMethod = ({ onSelect }: Props) => {
                 focus:ring-offset-white 
                 dark:focus:ring-offset-background-dark
                 cursor-pointer
-              `}
-          >
+              `}>
             {label}
           </button>
         ))}
@@ -81,8 +80,7 @@ export const SelectTransactionMethod = ({ onSelect }: Props) => {
                 focus:ring-offset-white 
                 dark:focus:ring-offset-background-dark
                 cursor-pointer
-              `}
-          >
+              `}>
             {label}
           </button>
         ))}

@@ -9,7 +9,7 @@ const TransactionHistory = lazy(() => import("../pages/TransactionHistory"));
 const Transactions = lazy(() => import("../pages/Transactions"));
 const NotFound = lazy(() => import("../pages/NotFound"));
 
-const LoadingFallback = <div className="p-4 text-center">Loading...</div>;
+const LoadingFallback = <div className="p-4 text-center animate-pulse">Loading...</div>;
 
 export const router = createBrowserRouter([
   {

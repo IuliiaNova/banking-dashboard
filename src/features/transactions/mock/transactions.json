@@ -22,6 +22,12 @@
   { "Date": "2025-05-28", "Amount": 300.00, "Description": "Freelance", "Type": "Deposit" },
   { "Date": "2025-05-29", "Amount": -150.00, "Description": "Online Shopping", "Type": "Withdrawal" },
   { "Date": "2025-05-30", "Amount": -22.00, "Description": "Fast Food", "Type": "Withdrawal" },
+  { "Date": "2025-06-01", "Amount": 40.00, "Description": "Other", "Type": "Deposit" },
+  { "Date": "2025-06-01", "Amount": 25.00, "Description": "Cashback", "Type": "Deposit" },
   { "Date": "2025-06-01", "Amount": 400.00, "Description": "Consulting Fee", "Type": "Deposit" },
-  { "Date": "2025-06-02", "Amount": -45.00, "Description": "Books", "Type": "Withdrawal" }
+  { "Date": "2025-06-01", "Amount": 14.99, "Description": "Bizum", "Type": "Deposit" },
+  { "Date": "2025-06-02", "Amount": -45.00, "Description": "Books", "Type": "Withdrawal" },
+  { "Date": "2025-06-02", "Amount": -5.14, "Description": "Water", "Type": "Withdrawal" },
+  { "Date": "2025-06-02", "Amount": -7.00, "Description": "Food", "Type": "Withdrawal" },
+  { "Date": "2025-06-02", "Amount": -77.49, "Description": "Tech", "Type": "Withdrawal" }
 ]

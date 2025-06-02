@@ -1,4 +1,3 @@
-// src/shared/context/AlertProvider.tsx
 import { useState, useCallback, useEffect, type ReactNode } from "react";
 import { AlertContext } from "./alert.context";
 import { Alert } from "../../components/ui/Alert";

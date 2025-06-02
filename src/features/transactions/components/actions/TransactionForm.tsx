@@ -202,7 +202,7 @@ export const TransactionForm = ({ setSelected }: Props) => {
           className="bg-gray-500 hover:bg-rose-hover text-white font-medium py-2 px-4 rounded-md transition"
           onClick={() => setSelected?.(null)}
         >
-          Go back
+          Cancel
         </button>
       </div>
     </form>

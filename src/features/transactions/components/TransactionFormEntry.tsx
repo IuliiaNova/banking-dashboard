@@ -1,4 +1,3 @@
-// src/features/transactions/pages/TransactionFormEntry.tsx
 import { useState } from "react";
 import type {
   SelectOperationType,

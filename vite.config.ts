@@ -9,7 +9,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/setupTests.ts',
-    exclude: [...configDefaults.exclude, 'e2e/*'], // optional
+    exclude: [...configDefaults.exclude, 'e2e/*'],
     coverage: {
       provider: 'v8', // or 'c8'
       reporter: ['text', 'json', 'html'],
