@@ -5,6 +5,7 @@ import { configDefaults } from 'vitest/config'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  base: '/banking-dashboard/',
   test: {
     globals: true,
     environment: 'jsdom',
