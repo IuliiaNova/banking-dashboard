@@ -1,0 +1,6 @@
+import{c as t,j as e,L as a}from"./index-D4G8WBXc.js";/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const r=[["path",{d:"m15 12-8.373 8.373a1 1 0 1 1-3-3L12 9",key:"eefl8a"}],["path",{d:"m18 15 4-4",key:"16gjal"}],["path",{d:"m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172V7l-2.26-2.26a6 6 0 0 0-4.202-1.756L9 2.96l.92.82A6.18 6.18 0 0 1 12 8.4V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5",key:"b7pghm"}]],o=t("hammer",r),n=()=>e.jsxs("div",{className:"min-h-[calc(100vh_-150px)] bg-background-light dark:bg-background-dark flex flex-col items-center justify-center px-6 text-center",children:[e.jsx(o,{className:"w-16 h-16 text-rose-base mb-4"}),e.jsx("h1",{className:"text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-3",children:"Page Under Construction"}),e.jsx("p",{className:"text-lg text-gray-600 dark:text-gray-300 max-w-md mb-6",children:"We are working to enable this section. It will be available for you soon. Thank you for your patience!"}),e.jsx(a,{to:"/dashboard",className:"inline-flex items-center bg-rose-base text-white px-5 py-3 rounded-2xl hover:bg-rose-hover transition-all",children:"Back to Home"})]});export{n as default};
