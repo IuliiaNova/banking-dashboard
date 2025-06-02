@@ -1,6 +1,6 @@
 import { useState } from "react";
-import type { Transaction } from "../../../entities/models/transactions";
-import { Modal } from "../../../shared/components/ui/Modal";
+import type { Transaction } from "../../../../entities/models/transactions";
+import { Modal } from "../../../../shared/components/ui/Modal";
 
 type Props = {
   isOpen: boolean;

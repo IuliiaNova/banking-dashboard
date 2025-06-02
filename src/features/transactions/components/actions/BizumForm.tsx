@@ -1,15 +1,12 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTransactions } from "../store/transactions.context";
 import { v4 as uuid } from "uuid";
 import clsx from "clsx";
-import type {
-  SelectOperationType,
-  Transaction,
-} from "../../../entities/models/transactions";
-import { useAlert } from "../../../shared/store/alert/alert.context";
+import { useAlert } from "../../../../shared/store/alert/alert.context";
 import { useNavigate } from "react-router-dom";
+import { useTransactions } from "../../store/transactions.context";
+import type { SelectOperationType, Transaction } from "../../../../entities/models/transactions";
 
 const schema = z.object({
   amount: z.number().min(0.01, "Amount must be greater than zero"),
@@ -17,23 +14,22 @@ const schema = z.object({
   date: z
     .string()
     .refine((val) => !isNaN(Date.parse(val)), "Invalid date format"),
-  destinationAccount: z
+  phone: z
     .string()
-    .min(10, "Destination account is required")
-    .max(34, "Account number too long")
-    .regex(/^[A-Z0-9]+$/, "Invalid account format"),
+    .regex(/^(\+34|34)?[6-7][0-9]{8}$/, "Invalid Spanish phone number"),
 });
 
 type FormValues = z.infer<typeof schema>;
 
 interface Props {
+  onSuccess?: () => void;
   setSelected?: React.Dispatch<
     React.SetStateAction<SelectOperationType | null>
   >;
 }
 
-export const TransferForm = ({ setSelected }: Props) => {
-  const { state, dispatch } = useTransactions("TransferForm");
+export const BizumForm = ({ onSuccess, setSelected }: Props) => {
+  const { state, dispatch } = useTransactions("BizumForm");
   const { showAlert } = useAlert();
   const navigate = useNavigate();
 
@@ -49,7 +45,7 @@ export const TransferForm = ({ setSelected }: Props) => {
       amount: 0,
       description: "",
       date: new Date().toISOString().split("T")[0],
-      destinationAccount: "",
+      phone: "",
     },
   });
 
@@ -61,22 +57,31 @@ export const TransferForm = ({ setSelected }: Props) => {
 
   const isOverdraft = amount > currentBalance;
 
+  const updateLocalStorage = (transactions: Transaction[]) => {
+    localStorage.setItem("transactionsData", JSON.stringify(transactions));
+  };
+
   const onSubmit = (data: FormValues) => {
     const newTransaction: Transaction = {
       id: uuid(),
       date: data.date,
       amount: -Math.abs(data.amount),
-      description: data.description,
+      description: `${data.description} (to ${data.phone})`,
       type: "Withdrawal",
     };
 
+    let updatedTransactions: Transaction[];
+
     dispatch({ type: "ADD", payload: newTransaction });
+    updatedTransactions = [...state.transactions, newTransaction];
     showAlert({
       message: "Operation was completed successfully",
       type: "success",
     });
 
+    updateLocalStorage(updatedTransactions);
     reset();
+    onSuccess?.();
     setSelected?.(null);
     navigate("/transactions-history");
   };
@@ -87,7 +92,7 @@ export const TransferForm = ({ setSelected }: Props) => {
       className="bg-gray-50 dark:bg-background-extra-dark rounded-xl p-4 sm:p-6 shadow space-y-6 max-w-lg mx-auto relative z-10"
     >
       <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-        New Transfer
+        Send Bizum
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
@@ -110,30 +115,32 @@ export const TransferForm = ({ setSelected }: Props) => {
             <p className="text-xs text-red-500 mt-1">{errors.amount.message}</p>
           )}
           {isOverdraft && (
-            <p className="text-xs text-orange-500 mt-1">Insufficient balance</p>
+            <p className="text-xs text-orange-500 mt-1">
+              Insufficient balance for Bizum
+            </p>
           )}
         </div>
+
         <div>
           <label className="text-sm text-gray-700 dark:text-gray-300 block mb-1">
-            Destination Account
+            Recipient Phone
           </label>
           <input
-            type="text"
-            {...register("destinationAccount")}
+            type="tel"
+            {...register("phone")}
+            placeholder="+34612345678"
             className={clsx(
               "w-full rounded-md px-3 py-2 border",
               "bg-white dark:bg-background-dark",
               "text-gray-900 dark:text-white",
-              errors.destinationAccount ? "border-red-500" : "border-gray-300"
+              errors.phone ? "border-red-500" : "border-gray-300"
             )}
-            placeholder="ESXX "
           />
-          {errors.destinationAccount && (
-            <p className="text-xs text-red-500 mt-1">
-              {errors.destinationAccount.message}
-            </p>
+          {errors.phone && (
+            <p className="text-xs text-red-500 mt-1">{errors.phone.message}</p>
           )}
         </div>
+
         <div className="sm:col-span-2">
           <label className="text-sm text-gray-700 dark:text-gray-300 block mb-1">
             Description
@@ -154,6 +161,7 @@ export const TransferForm = ({ setSelected }: Props) => {
             </p>
           )}
         </div>
+
         <div className="sm:col-span-2">
           <label className="text-sm text-gray-700 dark:text-gray-300 block mb-1">
             Date
@@ -168,24 +176,28 @@ export const TransferForm = ({ setSelected }: Props) => {
               errors.date ? "border-red-500" : "border-gray-300"
             )}
             min={new Date().toISOString().split("T")[0]}
+            max={new Date().toISOString().split("T")[0]}
           />
+          <p className="text-xs text-gray-500 mt-1">
+            By default, the date is set to today. Due to the type of operation, the date cannot be changed
+          </p>
         </div>
       </div>
+
       <div className="flex flex-col sm:flex-row gap-3 pt-4">
         <button
           type="submit"
           disabled={isOverdraft}
           className="bg-rose-base hover:bg-rose-hover text-white font-medium py-2 px-4 rounded-md transition"
         >
-          Make a Transfer
+          Send Bizum
         </button>
         <button
           type="button"
-          disabled={isOverdraft}
-          className="bg-gray-500 hover:bg-rose-hover text-white font-medium py-2 px-4 rounded-md transition"
+          className="bg-gray-500 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-md transition"
           onClick={() => setSelected?.(null)}
         >
-          Go back
+          Cancel
         </button>
       </div>
     </form>

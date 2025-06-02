@@ -5,15 +5,15 @@ import type {
   Transaction,
 } from "../../../entities/models/transactions";
 import { SelectTransactionMethod } from "./SelectTransactionType";
-import { TransferForm } from "./TransferForm";
-import { BizumForm } from "./BizumForm";
 import HistoryToManage from "./HistoryToManage";
 import { useTransactions } from "../store/transactions.context";
-import { TransactionModalForm } from "../components/TransactionModalForm";
 import { useAlert } from "../../../shared/store/alert/alert.context";
 import { useNavigate } from "react-router-dom";
 import { ModalConfirm } from "../../../shared/components/ui/ModalConfirm";
-import { TransactionForm } from "./TransactionForm";
+import { TransferForm } from "./actions/TransferForm";
+import { BizumForm } from "./actions/BizumForm";
+import { TransactionForm } from "./actions/TransactionForm";
+import { TransactionModalForm } from "./actions/TransactionModalForm";
 
 const TransactionFormEntry = () => {
   const { showAlert } = useAlert();
