@@ -1,11 +1,19 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import LoginForm from "../features/login/components/LoginForm";
+import Header from "../features/login/components/Header";
+import { useAuth } from "../features/login/context/auth.context";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Login: React.FC = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const { username, password, setUsername, setPassword } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem("bankUser");
+    if (savedUser) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [navigate]);
 
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,15 +28,7 @@ const Login: React.FC = () => {
   return (
     <main className="min-h-screen bg-background-light dark:bg-background-dark flex items-center justify-center px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-sm space-y-8">
-        <header>
-          <h1 className="text-center text-3xl font-extrabold text-gray-900 dark:text-white">
-            Sign in to your account
-          </h1>
-          <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
-            For demo purposes only. Any credentials will work.
-          </p>
-        </header>
-
+        <Header />
         <LoginForm
           username={username}
           password={password}

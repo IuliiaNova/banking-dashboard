@@ -73,7 +73,6 @@ const TransactionFormEntry = () => {
   return (
     <div className="px-4 sm:px-6">
       {!selected && <SelectTransactionMethod onSelect={handleSelect} />}
-
       {selected && (
         <div className="mt-6">
           {selected === "transfer" && (
@@ -99,7 +98,6 @@ const TransactionFormEntry = () => {
           )}
         </div>
       )}
-
       {transactionToEdit && modalMode && (
         <TransactionModalForm
           isOpen={!!transactionToEdit}

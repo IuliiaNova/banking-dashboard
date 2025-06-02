@@ -19,6 +19,7 @@ export type TransactionsContextType = {
 export const TransactionsContext = createContext<
   TransactionsContextType | undefined
 >(undefined);
+TransactionsContext.displayName = "TransactionsContext";
 
 export const useTransactions = (target: string) => {
   const context = useContext(TransactionsContext);

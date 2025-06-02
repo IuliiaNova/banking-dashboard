@@ -8,6 +8,7 @@ interface CurrencyContextType {
 }
 
 export const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
+CurrencyContext.displayName = "CurrencyContext";
 
 export const useCurrency = () => {
   const context = useContext(CurrencyContext);

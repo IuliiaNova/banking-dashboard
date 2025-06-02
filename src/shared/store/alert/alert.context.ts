@@ -7,6 +7,7 @@ type AlertContextType = {
 };
 
 export const AlertContext = createContext<AlertContextType | undefined>(undefined);
+AlertContext.displayName = "AlertContext";
 
 export const useAlert = (): AlertContextType => {
   const context = useContext(AlertContext);

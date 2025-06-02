@@ -6,15 +6,18 @@ import { router } from "./app/router.tsx";
 import { TransactionsProvider } from "./features/transactions/store/transactions.provider.tsx";
 import { CurrencyProvider } from "./shared/store/currency/currency.provider.tsx";
 import { AlertProvider } from "./shared/store/alert/alert.provider.tsx";
+import { AuthProvider } from "./features/login/context/auth.provider.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <AlertProvider>
-      <CurrencyProvider>
-        <TransactionsProvider>
-          <RouterProvider router={router} />
-        </TransactionsProvider>
-      </CurrencyProvider>
-    </AlertProvider>
+    <AuthProvider>
+      <AlertProvider>
+        <CurrencyProvider>
+          <TransactionsProvider>
+            <RouterProvider router={router} />
+          </TransactionsProvider>
+        </CurrencyProvider>
+      </AlertProvider>
+    </AuthProvider>
   </StrictMode>
 );
