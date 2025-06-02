@@ -88,34 +88,40 @@ npm run test -- --watch
 ## User Journey
 
 **1. Login**
+
 On the login screen, you can enter any credentials (username and password). There is no actual authentication – any input will work. When you log in, the app saves the username in the browser’s localStorage. This simulates a basic authentication flow.
 
 ![Build Status](public/assets/Login.png)
 
 
 **2. Dashboard**
+
 After logging in, you’ll be redirected to the dashboard. Your saved username will be displayed in a header.
 
 At this view user can:
 
 a. <ins>Select App Currency</ins>
+
 Choose the app’s currency: Euro (EUR) or Dollar (USD).
 The default currency is Euro.
 The selected currency is highlighted in green (see screenshot).
 
 b. <ins>Account Overview</ins>
+
 View your income and expenses.
 By default, values for the current month are shown.
 You can switch to view total income and expenses (all time).
 The current selection (month or total) is highlighted in green (see screenshot).
 
 c. <ins>Navigation to Transactions</ins>
+
 Click the ‘Account’ menu item to go to the full Transactions view.
 Or, in the ‘Transactions Overview’ section, click ‘Show All’ to view the complete list of transactions.
 
 ![Build Status](public/assets/Dashboard.png)
 
 **2. Transactions**
+
 On the Transactions page, users can:
 
 a. <ins>View a List of Transactions</ins>
@@ -123,12 +129,14 @@ a. <ins>View a List of Transactions</ins>
 - The list is paginated, showing 20 items per page for easy navigation.
 
 ***Mock Data Source***
+
 On the first load, transaction data is fetched from a mock JSON document.
 After the first load, transactions are saved in localStorage. This ensures that data is persisted and users will not lose their transaction list even after refreshing the page (F5).
 
 ![Build Status](public/assets/Transactions.png)
 
 b. <ins>Filters of Transactions</ins>
+
 Filter Button (1 marked in the screenshot) Clicking this button opens the available filters:
 - Date range: Filter by start and end date.
 - Operation type: Filter by the type of transaction.
@@ -137,9 +145,11 @@ Filter Button (1 marked in the screenshot) Clicking this button opens the availa
 ![Build Status](public/assets/Filter.png)
 
 b. <ins>Upload/Download CSV of Transactions</ins>
+
 CSV Import/Export Button (2 marked in the screenshot). This button will show a user buttons to upload or download transactions in CSV format.
 
 ***Upload:***
+
 You can upload a CSV document containing your transactions. 
 The app only accepts files in CSV format.
 When importing, the app checks for duplicate transactions based on the id field.
