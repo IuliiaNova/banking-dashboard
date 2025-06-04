@@ -4,9 +4,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { v4 as uuid } from "uuid";
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
-import type { SelectOperationType, Transaction } from "../../../../entities/models/transactions";
+import type {
+  SelectOperationType,
+  Transaction,
+} from "../../../../entities/models/transactions";
 import { useTransactions } from "../../store/transactions.context";
 import { useAlert } from "../../../../shared/store/alert/alert.context";
+import { calculateBalance } from "../../../../shared/utils/calculate-balance";
 
 const schema = z.object({
   amount: z.number().min(0.01, "Amount must be greater than zero"),
@@ -52,9 +56,7 @@ export const TransferForm = ({ setSelected }: Props) => {
 
   const amount = watch("amount");
 
-  const currentBalance = state.transactions
-    .filter((tx) => tx.type === "Deposit")
-    .reduce((acc, tx) => acc + tx.amount, 0);
+  const currentBalance = calculateBalance(state.transactions);
 
   const isOverdraft = amount > currentBalance;
 

@@ -8,6 +8,7 @@ import type { SelectOperationType, Transaction } from "../../../../entities/mode
 import { useTransactions } from "../../store/transactions.context";
 import { useAlert } from "../../../../shared/store/alert/alert.context";
 import Select, { type SelectOption } from "../../../../shared/components/ui/Select";
+import { calculateBalance } from "../../../../shared/utils/calculate-balance";
 
 const OPTIONS: Array<SelectOption> = [
   { value: "Deposit", label: "Deposit" },
@@ -56,10 +57,7 @@ export const TransactionForm = ({ setSelected }: Props) => {
   const type = watch("type");
   const amount = watch("amount");
 
-  const currentBalance = state.transactions.reduce(
-    (acc, tx) => acc + tx.amount,
-    0
-  );
+  const currentBalance =  calculateBalance(state.transactions)
 
   const isOverdraft = type === "Withdrawal" && amount > currentBalance;
 
