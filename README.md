@@ -94,7 +94,12 @@ npm run test -- --watch
 
 ![Build Status](public/assets/TestProvider.png)
 
+## 💄 Style
+
+The application is prepared for both light and dark modes. It switches automatically based on the browser's configuration.
+TODO: Add functionality to allow the user to manually select the mode
 ### 🏗️ Build
+
 
 ![Build Status](public/assets/build.png)
 
