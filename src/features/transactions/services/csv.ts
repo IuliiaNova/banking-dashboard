@@ -4,16 +4,19 @@ import type { Transaction, TransactionType } from "../../../entities/models/tran
 export function convertToCSV(transactions: Record<string, any>[]): string {
   if (transactions.length === 0) return "";
 
+  const sorted = [...transactions].sort((a, b) => {
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  });
+
   const formatHeader = (key: string) =>
     key
       .replace(/_/g, " ")
       .replace(/\w\S*/g, w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
 
-  const keys = Object.keys(transactions[0]);
-
+  const keys = Object.keys(sorted[0]);
   const headers = keys.map(formatHeader).join(",");
 
-  const rows = transactions
+  const rows = sorted
     .map(tx =>
       keys
         .map(key => `"${String(tx[key]).replace(/"/g, '""')}"`)
@@ -23,6 +26,7 @@ export function convertToCSV(transactions: Record<string, any>[]): string {
 
   return `${headers}\n${rows}`;
 }
+
 
 export const parseCSVToTransactions = (csv: string): Transaction[] => {
   const lines = csv.trim().split(/\r?\n/);
