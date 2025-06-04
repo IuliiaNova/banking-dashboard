@@ -7,6 +7,7 @@ import { useAlert } from "../../../../shared/store/alert/alert.context";
 import { useNavigate } from "react-router-dom";
 import { useTransactions } from "../../store/transactions.context";
 import type { SelectOperationType, Transaction } from "../../../../entities/models/transactions";
+import { calculateBalance } from "../../../../shared/utils/calculate-balance";
 
 const schema = z.object({
   amount: z.number().min(0.01, "Amount must be greater than zero"),
@@ -51,9 +52,7 @@ export const BizumForm = ({ onSuccess, setSelected }: Props) => {
 
   const amount = watch("amount");
 
-  const currentBalance = state.transactions
-    .filter((tx) => tx.type === "Deposit")
-    .reduce((acc, tx) => acc + tx.amount, 0);
+  const currentBalance =  calculateBalance(state.transactions)
 
   const isOverdraft = amount > currentBalance;
 
