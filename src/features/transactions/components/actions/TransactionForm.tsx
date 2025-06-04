@@ -93,7 +93,6 @@ export const TransactionForm = ({ setSelected }: Props) => {
     navigate("/transactions-history");
   };
 
-  // Aquí sincronizas el Select custom con RHF
   const handleCustomChange = (optionValue: string) => {
     setValue("type", optionValue as "Deposit" | "Withdrawal");
   };
