@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 export const Footer = () => {
   return (
-    <footer className="p-6 h-16 bg-gray-50 border-t-2 border-rose-base/10 dark:bg-background-extra-dark text-white shadow-md">
+    <footer className="fixed bottom-0 left-0 right-0 z-50 p-6 h-16 bg-gray-50 border-t-2 border-rose-base/10 dark:bg-background-extra-dark text-white shadow-md">
       <nav className="flex justify-around items-center text-gray-600 dark:text-gray-400">
         <NavLink
           to="/dashboard"
@@ -47,6 +47,6 @@ export const Footer = () => {
           <MoreHorizontal size={24} />
         </NavLink>
       </nav>
-    </footer>
+   </footer>
   );
 };
